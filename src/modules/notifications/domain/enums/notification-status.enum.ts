@@ -1,0 +1,5 @@
+export enum NOTIFICATION_STAUS {
+  PENDING = 'PENDING',
+  SENT = 'SENT',
+  FAILED = 'FAILED',
+}
