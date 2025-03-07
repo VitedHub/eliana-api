@@ -13,6 +13,7 @@ import { AnamnesisAnswer } from '@/anamneses/domain/entities/anamnesis-answer.en
 import { AnamnesisQuestion } from '@/anamneses/domain/entities/anamnesis-question.entity';
 import { Notification } from '@/notifications/domain/entities/notification.entity';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { AuthModule } from '@/auth/auth.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
