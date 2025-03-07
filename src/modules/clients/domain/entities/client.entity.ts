@@ -1,4 +1,5 @@
 import {
+  ArrayType,
   Collection,
   Entity,
   Enum,
@@ -26,8 +27,8 @@ export class Client {
   })
   email!: string;
 
-  @Property({ name: 'phone', type: 'varchar', length: 11, nullable: false })
-  phone!: string;
+  @Property({ name: 'phone', type: 'varchar', length: 11, nullable: true })
+  phone?: string;
 
   @Property({ name: 'password', type: 'varchar', length: 255, nullable: true })
   password?: string;
@@ -50,19 +51,16 @@ export class Client {
   })
   twoFactorCodeExpiresAt?: Date;
 
-  @Enum({ items: () => AUTH_PROVIDER, name: 'auth_provider', type: 'varchar' })
-  authProvider!: AUTH_PROVIDER;
+  @Enum({
+    name: 'auth_provider',
+    type: ArrayType,
+    nullable: false,
+    default: [],
+  })
+  authProviders: AUTH_PROVIDER[] = [];
 
   @Property({ name: 'oauth_id', type: 'varchar', length: 255, nullable: true })
   oAuthId?: string;
-
-  @Property({
-    name: 'oauth_token',
-    type: 'varchar',
-    length: 255,
-    nullable: true,
-  })
-  oAuthToken: string;
 
   @OneToMany(() => Appointment, (appointment) => appointment.client)
   appointments = new Collection<Appointment>(this);
