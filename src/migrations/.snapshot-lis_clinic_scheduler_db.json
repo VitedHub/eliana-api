@@ -38,14 +38,14 @@
           ],
           "mappedType": "enum"
         },
-        "questions": {
-          "name": "questions",
-          "type": "jsonb",
+        "options": {
+          "name": "options",
+          "type": "text[]",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "json"
+          "mappedType": "array"
         },
         "order": {
           "name": "order",
@@ -424,12 +424,12 @@
         },
         "answer": {
           "name": "answer",
-          "type": "text",
+          "type": "text[]",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "text"
+          "mappedType": "array"
         },
         "created_at": {
           "name": "created_at",
