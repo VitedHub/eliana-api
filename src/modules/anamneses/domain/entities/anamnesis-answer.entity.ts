@@ -13,8 +13,8 @@ export class AnamnesisAnswer {
   @ManyToOne(() => AnamnesisQuestion, { joinColumn: 'question_id' })
   question!: AnamnesisQuestion;
 
-  @Property({ name: 'answer', type: 'text', nullable: true })
-  answer!: string;
+  @Property({ name: 'answer', type: 'text[]', nullable: true })
+  answer!: string[];
 
   @Property({
     name: 'created_at',

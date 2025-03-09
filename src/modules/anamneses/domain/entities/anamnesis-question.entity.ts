@@ -12,8 +12,8 @@ export class AnamnesisQuestion {
   @Enum({ items: () => QUESTION_TYPE, name: 'type', type: 'varchar' })
   type!: QUESTION_TYPE;
 
-  @Property({ name: 'questions', type: 'jsonb', nullable: true })
-  questions: string[];
+  @Property({ name: 'options', type: 'text[]', nullable: true })
+  options: string[];
 
   @Property({ name: 'order', type: 'int', nullable: true })
   order!: number;
