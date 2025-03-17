@@ -42,6 +42,6 @@ export class ClientAuthController {
       sameSite: 'strict',
     });
 
-    return LoginPresenter.toHTTP();
+    res.send(LoginPresenter.toHTTP());
   }
 }
