@@ -1,15 +1,29 @@
 import { ListQuestions } from '@/anamneses/application/usecases/list-questions.usecase';
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { RegisterAnamnesisAnswerDto } from './dto/register-anamnesis-answer.dto';
+import { RegisterAnamnesisAnswer } from '@/anamneses/application/usecases/register-anamnesis-answer.usecase';
 
-@Controller('client/anamnesis/questions')
+@Controller('client/anamnesis')
 export class ClientAnamnesisQuestionsController {
   @Inject(ListQuestions)
   private readonly listQuestionsUseCase: ListQuestions;
+  @Inject(RegisterAnamnesisAnswer)
+  private readonly registerAnamnesisAnswer: RegisterAnamnesisAnswer;
 
-  @Get()
+  @Post('answers')
+  async registerAnswers(@Body() body: RegisterAnamnesisAnswerDto) {
+    const result = await this.registerAnamnesisAnswer.execute({
+      anamnesisId: body.anamnesisId,
+      answers: body.answers,
+    });
+
+    return result;
+  }
+
+  @Get('questions')
   async list() {
-    const questions = await this.listQuestionsUseCase.execute();
+    const result = await this.listQuestionsUseCase.execute();
 
-    return questions;
+    return result;
   }
 }

@@ -1,7 +1,9 @@
+import { Anamnesis } from '@/anamneses/domain/entities/anamnesis.entity';
 import { IClientRepository } from '@/clients/application/repositories/client.repository';
 import { Client } from '@/clients/domain/entities/client.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Inject } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 
 export class ClientPgRepository implements IClientRepository {
   @Inject(EntityManager)
@@ -10,6 +12,13 @@ export class ClientPgRepository implements IClientRepository {
   async create(data: Client): Promise<Client> {
     const client = this.entityManager.create(Client, data);
     await this.entityManager.persistAndFlush(client);
+
+    const anamnesis = this.entityManager.create(Anamnesis, {
+      id: randomUUID(),
+      client,
+    });
+    await this.entityManager.persistAndFlush(anamnesis);
+
     return client;
   }
 
