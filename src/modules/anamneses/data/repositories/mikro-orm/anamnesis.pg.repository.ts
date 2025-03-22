@@ -8,7 +8,10 @@ export class AnamnesisPgRepository implements IAnamnesisRepository {
   private readonly entityManager: EntityManager;
 
   async findById(data: { id: string }): Promise<Anamnesis> {
-    const anamnesis = await this.entityManager.findOne(Anamnesis, data.id);
+    const anamnesis = await this.entityManager.findOne(Anamnesis, data.id, {
+      populate: ['client', 'answers.question'],
+    });
+
     return anamnesis;
   }
 }

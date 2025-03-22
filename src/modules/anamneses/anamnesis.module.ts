@@ -8,6 +8,7 @@ import { AnamnesisAnswerPgRepository } from './data/repositories/mikro-orm/anamn
 import { IAnamnesisRepository } from './application/repositories/anamnesis.repository';
 import { AnamnesisPgRepository } from './data/repositories/mikro-orm/anamnesis.pg.repository';
 import { RegisterAnamnesisAnswer } from './application/usecases/register-anamnesis-answer.usecase';
+import { DetailAnamnesis } from './application/usecases/detail-anamnesis.usecase';
 
 @Module({
   providers: [
@@ -25,6 +26,7 @@ import { RegisterAnamnesisAnswer } from './application/usecases/register-anamnes
     },
     RegisterAnamnesisAnswer,
     ListQuestions,
+    DetailAnamnesis,
   ],
   controllers: [ClientAnamnesisQuestionsController],
 })
