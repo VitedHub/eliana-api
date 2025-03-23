@@ -1,16 +1,28 @@
 import { Entity, Enum, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { APPOINTMENT_STATUS } from '../enums/appointment-status.enum';
 import { Client } from '../../../clients/domain/entities/client.entity';
+import { TimeSlot } from '@/schedules/domain/entities/time-slot.entity';
 
 @Entity({ tableName: 'appointments' })
 export class Appointment {
   @PrimaryKey({ name: 'id', type: 'uuid', nullable: false })
   id!: string;
 
-  @Property({ name: 'date_time', type: 'timestamp with time zone' })
-  dateTime!: Date;
+  @ManyToOne(() => Client, { joinColumn: 'client_id' })
+  client!: Client;
 
-  @Enum({ items: () => APPOINTMENT_STATUS, name: 'status', type: 'varchar' })
+  @ManyToOne(() => TimeSlot, { joinColumn: 'time_slot_id' })
+  timeSlot!: TimeSlot;
+
+  @Property({ name: 'date', type: 'date', nullable: false })
+  date!: Date;
+
+  @Enum({
+    items: () => APPOINTMENT_STATUS,
+    name: 'status',
+    type: 'varchar',
+    nullable: false,
+  })
   status!: APPOINTMENT_STATUS;
 
   @Property({
@@ -28,9 +40,6 @@ export class Appointment {
     nullable: true,
   })
   googleCalendarEventUrl?: string;
-
-  @ManyToOne(() => Client, { joinColumn: 'client_id' })
-  client!: Client;
 
   @Property({
     name: 'created_at',
