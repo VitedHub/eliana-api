@@ -7,3 +7,13 @@ export enum DAY_OF_WEEK {
   FRIDAY = 'FRIDAY',
   SATURDAY = 'SATURDAY',
 }
+
+export const dayOfWeekMap: Record<number, DAY_OF_WEEK> = {
+  0: DAY_OF_WEEK.SUNDAY,
+  1: DAY_OF_WEEK.MONDAY,
+  2: DAY_OF_WEEK.TUESDAY,
+  3: DAY_OF_WEEK.WEDNESDAY,
+  4: DAY_OF_WEEK.THURSDAY,
+  5: DAY_OF_WEEK.FRIDAY,
+  6: DAY_OF_WEEK.SATURDAY,
+};

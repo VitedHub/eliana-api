@@ -94,8 +94,6 @@ export class AxiosHttpClient implements IHttpClient {
       message = error.message || 'An unexpected error occurred';
     }
 
-    console.log(error);
-
     return {
       data: {
         message,

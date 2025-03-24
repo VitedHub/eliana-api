@@ -226,112 +226,6 @@
           "nullable": false,
           "mappedType": "uuid"
         },
-        "date_time": {
-          "name": "date_time",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        },
-        "status": {
-          "name": "status",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "enumItems": [
-            "SCHEDULED",
-            "CANCELLED",
-            "RESCHEDULED"
-          ],
-          "mappedType": "enum"
-        },
-        "google_calendar_event_id": {
-          "name": "google_calendar_event_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "google_calendar_event_url": {
-          "name": "google_calendar_event_url",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "client_id": {
-          "name": "client_id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "uuid"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        }
-      },
-      "name": "appointments",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "appointments_pkey",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "appointments_client_id_foreign": {
-          "constraintName": "appointments_client_id_foreign",
-          "columnNames": [
-            "client_id"
-          ],
-          "localTableName": "public.appointments",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.clients",
-          "updateRule": "cascade"
-        }
-      },
-      "nativeEnums": {}
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "uuid"
-        },
         "client_id": {
           "name": "client_id",
           "type": "uuid",
@@ -480,124 +374,6 @@
             "id"
           ],
           "referencedTableName": "public.anamnesis_questions",
-          "updateRule": "cascade"
-        }
-      },
-      "nativeEnums": {}
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "uuid"
-        },
-        "appointment_id": {
-          "name": "appointment_id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "uuid"
-        },
-        "client_id": {
-          "name": "client_id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "uuid"
-        },
-        "status": {
-          "name": "status",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "enumItems": [
-            "PENDING",
-            "SENT",
-            "FAILED"
-          ],
-          "mappedType": "enum"
-        },
-        "message": {
-          "name": "message",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "text"
-        },
-        "sent_at": {
-          "name": "sent_at",
-          "type": "time(0)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": 0,
-          "mappedType": "time"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        }
-      },
-      "name": "notifications",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "notifications_pkey",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "notifications_appointment_id_foreign": {
-          "constraintName": "notifications_appointment_id_foreign",
-          "columnNames": [
-            "appointment_id"
-          ],
-          "localTableName": "public.notifications",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.appointments",
-          "deleteRule": "set null",
-          "updateRule": "cascade"
-        },
-        "notifications_client_id_foreign": {
-          "constraintName": "notifications_client_id_foreign",
-          "columnNames": [
-            "client_id"
-          ],
-          "localTableName": "public.notifications",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.clients",
-          "deleteRule": "set null",
           "updateRule": "cascade"
         }
       },
@@ -1001,10 +777,31 @@
           "primary": false,
           "nullable": false,
           "enumItems": [
-            "CONFIRMED",
-            "CANCELLED"
+            "SCHEDULED",
+            "CANCELLED",
+            "RESCHEDULED"
           ],
           "mappedType": "enum"
+        },
+        "google_calendar_event_id": {
+          "name": "google_calendar_event_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "google_calendar_event_url": {
+          "name": "google_calendar_event_url",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "created_at": {
           "name": "created_at",
@@ -1017,11 +814,11 @@
           "mappedType": "datetime"
         }
       },
-      "name": "scheduled_appointment",
+      "name": "appointments",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "scheduled_appointment_pkey",
+          "keyName": "appointments_pkey",
           "columnNames": [
             "id"
           ],
@@ -1033,28 +830,146 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "scheduled_appointment_client_id_foreign": {
-          "constraintName": "scheduled_appointment_client_id_foreign",
+        "appointments_client_id_foreign": {
+          "constraintName": "appointments_client_id_foreign",
           "columnNames": [
             "client_id"
           ],
-          "localTableName": "public.scheduled_appointment",
+          "localTableName": "public.appointments",
           "referencedColumnNames": [
             "id"
           ],
           "referencedTableName": "public.clients",
           "updateRule": "cascade"
         },
-        "scheduled_appointment_time_slot_id_foreign": {
-          "constraintName": "scheduled_appointment_time_slot_id_foreign",
+        "appointments_time_slot_id_foreign": {
+          "constraintName": "appointments_time_slot_id_foreign",
           "columnNames": [
             "time_slot_id"
           ],
-          "localTableName": "public.scheduled_appointment",
+          "localTableName": "public.appointments",
           "referencedColumnNames": [
             "id"
           ],
           "referencedTableName": "public.time_slots",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "appointment_id": {
+          "name": "appointment_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
+        },
+        "client_id": {
+          "name": "client_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "PENDING",
+            "SENT",
+            "FAILED"
+          ],
+          "mappedType": "enum"
+        },
+        "message": {
+          "name": "message",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "sent_at": {
+          "name": "sent_at",
+          "type": "time(0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "time"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "notifications",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "notifications_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "notifications_appointment_id_foreign": {
+          "constraintName": "notifications_appointment_id_foreign",
+          "columnNames": [
+            "appointment_id"
+          ],
+          "localTableName": "public.notifications",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.appointments",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
+        "notifications_client_id_foreign": {
+          "constraintName": "notifications_client_id_foreign",
+          "columnNames": [
+            "client_id"
+          ],
+          "localTableName": "public.notifications",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.clients",
+          "deleteRule": "set null",
           "updateRule": "cascade"
         }
       },

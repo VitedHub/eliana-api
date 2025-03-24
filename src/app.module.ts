@@ -16,6 +16,9 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { AuthModule } from '@/auth/auth.module';
 import { ClientsModule } from '@/clients/clients.module';
 import { AnamnesisModule } from '@/anamneses/anamnesis.module';
+import { ScheduleModule } from '@/schedules/schedule.module';
+import { AppointmentModule } from '@/appointments/appointment.module';
+import { ScheduleException } from '@/schedules/domain/entities/schedule-exception.entity';
 
 @Module({
   imports: [
@@ -35,6 +38,7 @@ import { AnamnesisModule } from '@/anamneses/anamnesis.module';
           Anamnesis,
           AnamnesisAnswer,
           AnamnesisQuestion,
+          ScheduleException,
         ],
         entitiesTs: ['./src/**/entities/*.ts'],
         driver: PostgreSqlDriver,
@@ -49,6 +53,8 @@ import { AnamnesisModule } from '@/anamneses/anamnesis.module';
     AuthModule,
     ClientsModule,
     AnamnesisModule,
+    ScheduleModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
