@@ -1,4 +1,4 @@
-import { GetAvailableDays } from '@/appointments/application/usecases/get-available-days.usecase';
+import { GetAvailableDays } from '@/appointments/application/usecases/get-available-month-days.usecase';
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 
 @Controller('client/appointments')
