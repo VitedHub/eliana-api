@@ -82,8 +82,6 @@ export class GetAvailableDays {
 
           map[dateString].add(appointment.timeSlot.id);
 
-          console.log('appointment: ', appointment.date);
-
           return map;
         },
         {} as Record<string, Set<string>>,

@@ -4,12 +4,14 @@ import { ClientAppointmentController } from './api/controllers/client-appointmen
 import { GetAvailableDays } from './application/usecases/get-available-month-days.usecase';
 import { IAppointmentRepository } from './application/repositories/appointment.repository';
 import { AppointmentPgRepository } from './data/repositories/mikro-orm/appointment.pg.repository';
+import { GetAvailableDayTimeSlots } from './application/usecases/get-available-day-time-slots.usecase';
 
 @Module({
   imports: [ScheduleModule],
   controllers: [ClientAppointmentController],
   providers: [
     GetAvailableDays,
+    GetAvailableDayTimeSlots,
     {
       provide: IAppointmentRepository,
       useClass: AppointmentPgRepository,
