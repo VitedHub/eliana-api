@@ -8,6 +8,17 @@ export class AppointmentPgRepository implements IAppointmentRepository {
   @Inject(EntityManager)
   private readonly entityManager: EntityManager;
 
+  async listClientAppointments(data: {
+    clientId: string;
+  }): Promise<Appointment[]> {
+    return await this.entityManager.findAll(Appointment, {
+      where: {
+        client: data.clientId,
+      },
+      populate: ['timeSlot', 'timeSlot.schedule'],
+    });
+  }
+
   async getBookedDates(data: {
     startDate: Date;
     endDate: Date;
