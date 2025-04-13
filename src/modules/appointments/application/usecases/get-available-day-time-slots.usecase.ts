@@ -2,7 +2,7 @@ import { IScheduleExceptionRepository } from '@/schedules/application/repositori
 import { IAppointmentRepository } from '../repositories/appointment.repository';
 import { IScheduleRepository } from '@/schedules/application/repositories/schedule.repository';
 import { Inject } from '@nestjs/common';
-import { getDay, isSameDay } from 'date-fns';
+import { getDay, isSameDay, parseISO } from 'date-fns';
 import { dayOfWeekMap } from '@/schedules/domain/enums/day-of-week.enum';
 import { TimeSlot } from '@/schedules/domain/entities/time-slot.entity';
 
@@ -20,7 +20,7 @@ export class GetAvailableDayTimeSlots {
 
   async execute(data: GetAvailableDayTimeSlotsInput) {
     const availableTimeSlot: TimeSlot[] = [];
-    const day = data.date;
+    const day = parseISO(data.date as unknown as string);
     const weekDayString = dayOfWeekMap[getDay(day)];
 
     const normalizeDate = (date: Date) => date.toISOString().split('T')[0];
@@ -69,7 +69,7 @@ export class GetAvailableDayTimeSlots {
 
     daySchedules.map((schedule) => {
       for (const slot of schedule.timeSlot) {
-        const bookedForDay = bookedAppointments[day.toString()];
+        const bookedForDay = bookedAppointments[normalizeDate(day)];
 
         if (!(bookedForDay && bookedForDay.has(slot.id)))
           availableTimeSlot.push(slot);
