@@ -22,6 +22,12 @@ export class ClientPgRepository implements IClientRepository {
     return client;
   }
 
+  async findById(id: string): Promise<Client | null> {
+    const client = await this.entityManager.findOne(Client, { id: id });
+
+    return client;
+  }
+
   async findByEmail(email: string): Promise<Client | null> {
     const client = await this.entityManager.findOne(Client, { email: email });
 

@@ -5,7 +5,7 @@ import {
 } from '@/auth/application/providers/auth.provider';
 import { AUTH_PROVIDER } from '@/clients/domain/enums/auth-provider.enum';
 import { IHttpClient } from '@/core/application/providers/http-client.provider';
-import { Inject } from '@nestjs/common';
+import { BadRequestException, Inject } from '@nestjs/common';
 
 export type GoogleTokenResponse = {
   access_token: string;
@@ -33,7 +33,9 @@ export class GoogleAuthProvider implements IAuthProvider {
     });
 
     if (!response.data.access_token || !response.data.refresh_token) {
-      throw new Error(response.data.error || 'Code change for token error');
+      throw new BadRequestException(
+        response.data.error || 'Code change for token error',
+      );
     }
 
     return {
@@ -58,6 +60,30 @@ export class GoogleAuthProvider implements IAuthProvider {
       email: response.data.email,
       authProvider: AUTH_PROVIDER.GOOGLE,
       oAuthId: response.data.sub,
+    };
+  }
+
+  async refreshAccessToken(
+    refreshToken: string,
+  ): Promise<ExchangeCodeForTokensOutput> {
+    const url = 'https://oauth2.googleapis.com/token';
+
+    const response = await this.httpClient.post<GoogleTokenResponse>(url, {
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      refresh_token: refreshToken,
+      grant_type: 'refresh_token',
+    });
+
+    if (!response.data.access_token || !response.data.refresh_token) {
+      throw new BadRequestException(
+        response.data.error || 'Code change for token error',
+      );
+    }
+
+    return {
+      accessToken: response.data.access_token,
+      refreshToken: response.data.refresh_token,
     };
   }
 }

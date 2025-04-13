@@ -1,7 +1,7 @@
-import { OAuthLogInUseCase } from '@/auth/application/usecases/oAuth-login.usecase';
+import { ClientOAuthLogInUseCase } from '@/auth/application/usecases/client-oAuth-login.usecase';
 import { CookieSecurityService } from '@/core/application/services/cookie-security.service';
 import { Body, Controller, Inject, Post, Res } from '@nestjs/common';
-import { ClientLoginDto } from './dto/client-login.dto';
+import { ClientLoginRequest } from './request/client-login.request';
 import { Response } from 'express';
 import { LoginPresenter } from './presenters/login.presenter';
 
@@ -9,17 +9,14 @@ import { LoginPresenter } from './presenters/login.presenter';
 export class ClientAuthController {
   @Inject(CookieSecurityService)
   private readonly cookieSecService: CookieSecurityService;
-  @Inject(OAuthLogInUseCase)
-  private readonly oAuthLoginUseCase: OAuthLogInUseCase;
+  @Inject(ClientOAuthLogInUseCase)
+  private readonly oAuthLoginUseCase: ClientOAuthLogInUseCase;
 
   @Post()
-  async login(@Body() body: ClientLoginDto, @Res() res: Response) {
+  async login(@Body() body: ClientLoginRequest, @Res() res: Response) {
     const result = await this.oAuthLoginUseCase.execute({
       ...body,
-      userType: 'CLIENT',
     });
-
-    const roleCookieValue = this.cookieSecService.signCookie(result.role);
 
     res.cookie('access_token', result.accessToken, {
       httpOnly: true,
@@ -32,13 +29,6 @@ export class ClientAuthController {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 60 * 1000,
-      sameSite: 'strict',
-    });
-
-    res.cookie('role', roleCookieValue, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24 * 7 * 1000,
       sameSite: 'strict',
     });
 

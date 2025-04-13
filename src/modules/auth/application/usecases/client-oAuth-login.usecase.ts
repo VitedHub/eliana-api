@@ -3,28 +3,31 @@ import { IClientRepository } from '@/clients/application/repositories/client.rep
 import { Client } from '@/clients/domain/entities/client.entity';
 import { AUTH_PROVIDER } from '@/clients/domain/enums/auth-provider.enum';
 import { Inject, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'crypto';
 
-export type Input = {
+export type OAuthLogInUseCaseInput = {
   provider: AUTH_PROVIDER;
   code: string;
-  userType: 'CLIENT' | 'ESTABLISHMENT';
 };
 
-export type Output = {
+export type OAuthLogInUseCaseOutput = {
   accessToken: string;
   refreshToken: string;
-  role: 'CLIENT' | 'ESTABLISHMENT';
 };
 
 @Injectable()
-export class OAuthLogInUseCase {
+export class ClientOAuthLogInUseCase {
   @Inject(AuthProviderFactory)
   private authProviderFactory: AuthProviderFactory;
   @Inject(IClientRepository)
   private readonly clientRepo: IClientRepository;
+  @Inject(JwtService)
+  private readonly jwtService: JwtService;
 
-  async execute(data: Input): Promise<Output> {
+  async execute(
+    data: OAuthLogInUseCaseInput,
+  ): Promise<OAuthLogInUseCaseOutput> {
     const authProvider = this.authProviderFactory.getAuthProvider(
       data.provider,
     );
@@ -43,10 +46,14 @@ export class OAuthLogInUseCase {
       user = await this.createNewUser(userData);
     }
 
-    return {
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
+    const accessToken = await this.jwtService.signAsync({
+      sub: user.id,
       role: 'CLIENT',
+    });
+
+    return {
+      accessToken,
+      refreshToken: tokens.refreshToken,
     };
   }
 
@@ -54,21 +61,19 @@ export class OAuthLogInUseCase {
     email: string,
     providerId: string,
     provider: AUTH_PROVIDER,
-    // userType: 'CLIENT' | 'ESTABLISHMENT',
   ) {
     try {
-      const repository = this.clientRepo;
-
-      const userByProviderId = await repository.findByProviderId(providerId);
+      const userByProviderId =
+        await this.clientRepo.findByProviderId(providerId);
 
       if (userByProviderId) return userByProviderId;
 
-      const userByEmail = await repository.findByEmail(email);
+      const userByEmail = await this.clientRepo.findByEmail(email);
 
       if (userByEmail) {
         if (!userByEmail.authProviders.includes(provider)) {
           userByEmail.authProviders.push(provider);
-          await repository.update(userByEmail);
+          await this.clientRepo.update(userByEmail);
         }
 
         return userByEmail;
@@ -81,17 +86,12 @@ export class OAuthLogInUseCase {
     }
   }
 
-  private async createNewUser(
-    userData: {
-      name: string;
-      email: string;
-      authProvider: AUTH_PROVIDER;
-      oAuthId?: string;
-    },
-    // userType: 'CLIENT' | 'ESTABLISHMENT',
-  ): Promise<Client> {
-    const repository = this.clientRepo;
-
+  private async createNewUser(userData: {
+    name: string;
+    email: string;
+    authProvider: AUTH_PROVIDER;
+    oAuthId?: string;
+  }): Promise<Client> {
     const newUser = new Client();
 
     newUser.id = randomUUID();
@@ -100,6 +100,6 @@ export class OAuthLogInUseCase {
     newUser.oAuthId = userData.oAuthId;
     newUser.authProviders = [userData.authProvider];
 
-    return await repository.create(newUser);
+    return await this.clientRepo.create(newUser);
   }
 }

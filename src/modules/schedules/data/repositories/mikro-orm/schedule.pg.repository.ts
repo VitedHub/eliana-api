@@ -7,6 +7,10 @@ export class SchedulePgRepository implements IScheduleRepository {
   @Inject(EntityManager)
   private readonly entityManager: EntityManager;
 
+  async getScheduleById(id: string): Promise<Schedule | null> {
+    return await this.entityManager.findOne(Schedule, { id });
+  }
+
   async getAvailableWeekDays(): Promise<
     Pick<Schedule, 'id' | 'dayOfWeek' | 'timeSlot'>[]
   > {

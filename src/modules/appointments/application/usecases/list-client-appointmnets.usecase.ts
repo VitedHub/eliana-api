@@ -1,6 +1,5 @@
 import { Inject } from '@nestjs/common';
 import { IAppointmentRepository } from '../repositories/appointment.repository';
-import { AppointmentPgRepository } from '@/appointments/data/repositories/mikro-orm/appointment.pg.repository';
 
 export type ListClientAppointmentsInput = {
   clientId: string;
@@ -8,7 +7,7 @@ export type ListClientAppointmentsInput = {
 
 export class ListClientAppointments {
   @Inject(IAppointmentRepository)
-  private appotintmentRepo: AppointmentPgRepository;
+  private appotintmentRepo: IAppointmentRepository;
 
   async execute(data: ListClientAppointmentsInput) {
     return await this.appotintmentRepo.listClientAppointments({

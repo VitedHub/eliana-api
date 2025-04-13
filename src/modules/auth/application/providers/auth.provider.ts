@@ -17,4 +17,7 @@ export abstract class IAuthProvider {
     code: string,
   ): Promise<ExchangeCodeForTokensOutput>;
   abstract getUserData(accessToken: string): Promise<GetUserDataOutput>;
+  abstract refreshAccessToken(
+    refreshToken: string,
+  ): Promise<ExchangeCodeForTokensOutput>;
 }

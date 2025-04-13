@@ -6,10 +6,14 @@ import { IAppointmentRepository } from './application/repositories/appointment.r
 import { AppointmentPgRepository } from './data/repositories/mikro-orm/appointment.pg.repository';
 import { GetAvailableDayTimeSlots } from './application/usecases/get-available-day-time-slots.usecase';
 import { ListClientAppointments } from './application/usecases/list-client-appointmnets.usecase';
+import { BookAppointment } from './application/usecases/book-appointment.usecase';
+import { ClientsModule } from '@/clients/clients.module';
+import { AppointmentsController } from './api/controllers/appointments.controller';
+import { AuthModule } from '@/auth/auth.module';
 
 @Module({
-  imports: [ScheduleModule],
-  controllers: [ClientAppointmentController],
+  imports: [AuthModule, ScheduleModule, ClientsModule],
+  controllers: [ClientAppointmentController, AppointmentsController],
   providers: [
     {
       provide: IAppointmentRepository,
@@ -18,6 +22,7 @@ import { ListClientAppointments } from './application/usecases/list-client-appoi
     GetAvailableDays,
     GetAvailableDayTimeSlots,
     ListClientAppointments,
+    BookAppointment,
   ],
 })
 export class AppointmentModule {}

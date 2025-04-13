@@ -23,6 +23,7 @@ import { ScheduleException } from '@/schedules/domain/entities/schedule-exceptio
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath: ['.env'],
     }),
     MikroOrmModule.forRootAsync({
