@@ -2,17 +2,26 @@ import {
   Collection,
   Entity,
   Enum,
+  ManyToOne,
   OneToMany,
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
 import { DAY_OF_WEEK } from '../enums/day-of-week.enum';
 import { TimeSlot } from './time-slot.entity';
+import { Professional } from '@/professionals/domain/entities/professionals.entity';
+import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 
 @Entity({ tableName: 'schedules' })
 export class Schedule {
   @PrimaryKey({ name: 'id', type: 'uuid' })
   id!: string;
+
+  @ManyToOne(() => Professional)
+  professional!: Professional;
+
+  @ManyToOne(() => Establishment)
+  establishment!: Establishment;
 
   @Enum({
     items: () => DAY_OF_WEEK,

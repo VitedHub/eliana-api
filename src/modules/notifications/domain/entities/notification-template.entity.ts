@@ -1,10 +1,18 @@
-import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Enum, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { NOTIFICATION_TEMPLATE_TYPE } from '../enums/notification-template-type.enum';
+import { Establishment } from '@/establishments/domain/entities/establishment.entity';
+import { Professional } from '@/professionals/domain/entities/professionals.entity';
 
 @Entity({ tableName: 'notification_templates' })
 export class NotificationTemplate {
   @PrimaryKey({ name: 'id', type: 'uuid' })
   id!: string;
+
+  @ManyToOne(() => Professional, { nullable: true })
+  professional?: Professional;
+
+  @ManyToOne(() => Establishment, { nullable: true })
+  establishment?: Establishment;
 
   @Property({ name: 'title', type: 'varchar', length: 255 })
   title!: string;

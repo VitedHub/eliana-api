@@ -2,11 +2,19 @@ import { Entity, Enum, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { APPOINTMENT_STATUS } from '../enums/appointment-status.enum';
 import { Client } from '../../../clients/domain/entities/client.entity';
 import { TimeSlot } from '@/schedules/domain/entities/time-slot.entity';
+import { Professional } from '@/professionals/domain/entities/professionals.entity';
+import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 
 @Entity({ tableName: 'appointments' })
 export class Appointment {
   @PrimaryKey({ name: 'id', type: 'uuid', nullable: false })
   id!: string;
+
+  @ManyToOne(() => Professional)
+  professional!: Professional;
+
+  @ManyToOne(() => Establishment)
+  establishment!: Establishment;
 
   @ManyToOne(() => Client, { joinColumn: 'client_id' })
   client!: Client;

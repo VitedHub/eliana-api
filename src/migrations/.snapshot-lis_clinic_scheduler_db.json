@@ -15,8 +15,8 @@
           "nullable": false,
           "mappedType": "uuid"
         },
-        "text": {
-          "name": "text",
+        "number": {
+          "name": "number",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -25,43 +25,101 @@
           "length": 255,
           "mappedType": "string"
         },
-        "type": {
-          "name": "type",
-          "type": "text",
+        "complement": {
+          "name": "complement",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "district": {
+          "name": "district",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "enumItems": [
-            "TEXT",
-            "MULTIPLE_CHOICE"
-          ],
-          "mappedType": "enum"
+          "length": 255,
+          "mappedType": "string"
         },
-        "options": {
-          "name": "options",
-          "type": "text[]",
+        "city": {
+          "name": "city",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "state": {
+          "name": "state",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "zip_code": {
+          "name": "zip_code",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "country": {
+          "name": "country",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "default": "'Brasil'",
+          "mappedType": "string"
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "real",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "array"
+          "mappedType": "float"
         },
-        "order": {
-          "name": "order",
-          "type": "int",
+        "longitude": {
+          "name": "longitude",
+          "type": "real",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": true,
-          "mappedType": "integer"
+          "mappedType": "float"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
         }
       },
-      "name": "anamnesis_questions",
+      "name": "addresses",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "anamnesis_questions_pkey",
+          "keyName": "addresses_pkey",
           "columnNames": [
             "id"
           ],
@@ -226,6 +284,649 @@
           "nullable": false,
           "mappedType": "uuid"
         },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar(11)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 11,
+          "mappedType": "string"
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "auth_provider": {
+          "name": "auth_provider",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'{}'",
+          "mappedType": "enum"
+        },
+        "oauth_id": {
+          "name": "oauth_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "professionals",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "email"
+          ],
+          "composite": false,
+          "keyName": "professionals_email_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "professionals_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "cnpj": {
+          "name": "cnpj",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar(11)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 11,
+          "mappedType": "string"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "public_url": {
+          "name": "public_url",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "address_id": {
+          "name": "address_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "establishments",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "cnpj"
+          ],
+          "composite": false,
+          "keyName": "establishments_cnpj_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "public_url"
+          ],
+          "composite": false,
+          "keyName": "establishments_public_url_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "establishments_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "establishments_owner_id_foreign": {
+          "constraintName": "establishments_owner_id_foreign",
+          "columnNames": [
+            "owner_id"
+          ],
+          "localTableName": "public.establishments",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "updateRule": "cascade"
+        },
+        "establishments_address_id_foreign": {
+          "constraintName": "establishments_address_id_foreign",
+          "columnNames": [
+            "address_id"
+          ],
+          "localTableName": "public.establishments",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.addresses",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "professional_id": {
+          "name": "professional_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
+        },
+        "establishment_id": {
+          "name": "establishment_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [],
+          "mappedType": "enum"
+        },
+        "message": {
+          "name": "message",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "send_before_hours": {
+          "name": "send_before_hours",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "notification_templates",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "notification_templates_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "notification_templates_professional_id_foreign": {
+          "constraintName": "notification_templates_professional_id_foreign",
+          "columnNames": [
+            "professional_id"
+          ],
+          "localTableName": "public.notification_templates",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
+        "notification_templates_establishment_id_foreign": {
+          "constraintName": "notification_templates_establishment_id_foreign",
+          "columnNames": [
+            "establishment_id"
+          ],
+          "localTableName": "public.notification_templates",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.establishments",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "professional_id": {
+          "name": "professional_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "establishment_id": {
+          "name": "establishment_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "establishment_professionals",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "establishment_professionals_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "establishment_professionals_professional_id_foreign": {
+          "constraintName": "establishment_professionals_professional_id_foreign",
+          "columnNames": [
+            "professional_id"
+          ],
+          "localTableName": "public.establishment_professionals",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "updateRule": "cascade"
+        },
+        "establishment_professionals_establishment_id_foreign": {
+          "constraintName": "establishment_professionals_establishment_id_foreign",
+          "columnNames": [
+            "establishment_id"
+          ],
+          "localTableName": "public.establishment_professionals",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.establishments",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "professional_id": {
+          "name": "professional_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
+        },
+        "establishment_id": {
+          "name": "establishment_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "uuid"
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "TEXT",
+            "MULTIPLE_CHOICE"
+          ],
+          "mappedType": "enum"
+        },
+        "options": {
+          "name": "options",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "array"
+        },
+        "order": {
+          "name": "order",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        }
+      },
+      "name": "anamnesis_questions",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "anamnesis_questions_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "anamnesis_questions_professional_id_foreign": {
+          "constraintName": "anamnesis_questions_professional_id_foreign",
+          "columnNames": [
+            "professional_id"
+          ],
+          "localTableName": "public.anamnesis_questions",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
+        "anamnesis_questions_establishment_id_foreign": {
+          "constraintName": "anamnesis_questions_establishment_id_foreign",
+          "columnNames": [
+            "establishment_id"
+          ],
+          "localTableName": "public.anamnesis_questions",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.establishments",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "professional_id": {
+          "name": "professional_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "establishment_id": {
+          "name": "establishment_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
         "client_id": {
           "name": "client_id",
           "type": "uuid",
@@ -272,6 +973,30 @@
       ],
       "checks": [],
       "foreignKeys": {
+        "anamneses_professional_id_foreign": {
+          "constraintName": "anamneses_professional_id_foreign",
+          "columnNames": [
+            "professional_id"
+          ],
+          "localTableName": "public.anamneses",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "updateRule": "cascade"
+        },
+        "anamneses_establishment_id_foreign": {
+          "constraintName": "anamneses_establishment_id_foreign",
+          "columnNames": [
+            "establishment_id"
+          ],
+          "localTableName": "public.anamneses",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.establishments",
+          "updateRule": "cascade"
+        },
         "anamneses_client_id_foreign": {
           "constraintName": "anamneses_client_id_foreign",
           "columnNames": [
@@ -390,107 +1115,17 @@
           "nullable": false,
           "mappedType": "uuid"
         },
-        "title": {
-          "name": "title",
-          "type": "varchar(255)",
+        "professional_id": {
+          "name": "professional_id",
+          "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 255,
-          "mappedType": "string"
+          "mappedType": "uuid"
         },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "enumItems": [],
-          "mappedType": "enum"
-        },
-        "message": {
-          "name": "message",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "text"
-        },
-        "image_url": {
-          "name": "image_url",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "is_active": {
-          "name": "is_active",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
-        },
-        "send_before_hours": {
-          "name": "send_before_hours",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamptz",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        }
-      },
-      "name": "notification_templates",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "notification_templates_pkey",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "constraint": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {},
-      "nativeEnums": {}
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
+        "establishment_id": {
+          "name": "establishment_id",
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
@@ -553,13 +1188,56 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {},
+      "foreignKeys": {
+        "schedules_professional_id_foreign": {
+          "constraintName": "schedules_professional_id_foreign",
+          "columnNames": [
+            "professional_id"
+          ],
+          "localTableName": "public.schedules",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "updateRule": "cascade"
+        },
+        "schedules_establishment_id_foreign": {
+          "constraintName": "schedules_establishment_id_foreign",
+          "columnNames": [
+            "establishment_id"
+          ],
+          "localTableName": "public.schedules",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.establishments",
+          "updateRule": "cascade"
+        }
+      },
       "nativeEnums": {}
     },
     {
       "columns": {
         "id": {
           "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "professional_id": {
+          "name": "professional_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "establishment_id": {
+          "name": "establishment_id",
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
@@ -633,6 +1311,30 @@
       ],
       "checks": [],
       "foreignKeys": {
+        "schedule_exception_professional_id_foreign": {
+          "constraintName": "schedule_exception_professional_id_foreign",
+          "columnNames": [
+            "professional_id"
+          ],
+          "localTableName": "public.schedule_exception",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "updateRule": "cascade"
+        },
+        "schedule_exception_establishment_id_foreign": {
+          "constraintName": "schedule_exception_establishment_id_foreign",
+          "columnNames": [
+            "establishment_id"
+          ],
+          "localTableName": "public.schedule_exception",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.establishments",
+          "updateRule": "cascade"
+        },
         "schedule_exception_schedule_id_foreign": {
           "constraintName": "schedule_exception_schedule_id_foreign",
           "columnNames": [
@@ -741,6 +1443,24 @@
           "nullable": false,
           "mappedType": "uuid"
         },
+        "professional_id": {
+          "name": "professional_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "establishment_id": {
+          "name": "establishment_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
         "client_id": {
           "name": "client_id",
           "type": "uuid",
@@ -830,6 +1550,30 @@
       ],
       "checks": [],
       "foreignKeys": {
+        "appointments_professional_id_foreign": {
+          "constraintName": "appointments_professional_id_foreign",
+          "columnNames": [
+            "professional_id"
+          ],
+          "localTableName": "public.appointments",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "updateRule": "cascade"
+        },
+        "appointments_establishment_id_foreign": {
+          "constraintName": "appointments_establishment_id_foreign",
+          "columnNames": [
+            "establishment_id"
+          ],
+          "localTableName": "public.appointments",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.establishments",
+          "updateRule": "cascade"
+        },
         "appointments_client_id_foreign": {
           "constraintName": "appointments_client_id_foreign",
           "columnNames": [
