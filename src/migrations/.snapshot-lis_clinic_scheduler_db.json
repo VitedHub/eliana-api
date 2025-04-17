@@ -1284,6 +1284,15 @@
           "nullable": false,
           "mappedType": "uuid"
         },
+        "establishment_id": {
+          "name": "establishment_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
         "start_time": {
           "name": "start_time",
           "type": "time(0)",
@@ -1350,6 +1359,18 @@
             "id"
           ],
           "referencedTableName": "public.professionals",
+          "updateRule": "cascade"
+        },
+        "time_slots_establishment_id_foreign": {
+          "constraintName": "time_slots_establishment_id_foreign",
+          "columnNames": [
+            "establishment_id"
+          ],
+          "localTableName": "public.time_slots",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.establishments",
           "updateRule": "cascade"
         },
         "time_slots_schedule_id_foreign": {

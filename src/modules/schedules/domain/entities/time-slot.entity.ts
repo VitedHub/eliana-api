@@ -1,6 +1,7 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Schedule } from './schedule.entity';
 import { Professional } from '@/professionals/domain/entities/professionals.entity';
+import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 
 @Entity({ tableName: 'time_slots' })
 export class TimeSlot {
@@ -9,6 +10,9 @@ export class TimeSlot {
 
   @ManyToOne(() => Professional, { joinColumn: 'professional_id' })
   professional!: Professional;
+
+  @ManyToOne(() => Establishment, { joinColumn: 'establishment_id' })
+  establishment!: Establishment;
 
   @Property({ name: 'start_time', type: 'time', nullable: false })
   startTime!: string;
