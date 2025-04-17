@@ -10,10 +10,10 @@ export class Appointment {
   @PrimaryKey({ name: 'id', type: 'uuid', nullable: false })
   id!: string;
 
-  @ManyToOne(() => Professional)
+  @ManyToOne(() => Professional, { joinColumn: 'professional_id' })
   professional!: Professional;
 
-  @ManyToOne(() => Establishment)
+  @ManyToOne(() => Establishment, { joinColumn: 'establishment_id' })
   establishment!: Establishment;
 
   @ManyToOne(() => Client, { joinColumn: 'client_id' })

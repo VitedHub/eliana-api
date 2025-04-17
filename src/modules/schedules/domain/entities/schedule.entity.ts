@@ -9,7 +9,6 @@ import {
 } from '@mikro-orm/core';
 import { DAY_OF_WEEK } from '../enums/day-of-week.enum';
 import { TimeSlot } from './time-slot.entity';
-import { Professional } from '@/professionals/domain/entities/professionals.entity';
 import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 
 @Entity({ tableName: 'schedules' })
@@ -17,10 +16,7 @@ export class Schedule {
   @PrimaryKey({ name: 'id', type: 'uuid' })
   id!: string;
 
-  @ManyToOne(() => Professional)
-  professional!: Professional;
-
-  @ManyToOne(() => Establishment)
+  @ManyToOne(() => Establishment, { joinColumn: 'establishment_id' })
   establishment!: Establishment;
 
   @Enum({

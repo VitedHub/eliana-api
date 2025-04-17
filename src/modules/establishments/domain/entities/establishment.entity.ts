@@ -18,7 +18,7 @@ export class Establishment {
   @Property({ name: 'cnpj', type: 'varchar', nullable: true, unique: true })
   cnpj?: string;
 
-  @ManyToOne(() => Professional)
+  @ManyToOne(() => Professional, { joinColumn: 'professional_id' })
   owner!: string;
 
   @Property({ name: 'name', type: 'varchar', length: 255, nullable: false })
@@ -36,7 +36,7 @@ export class Establishment {
   @Property({ name: 'public_url', type: 'varchar', unique: true })
   publicUrl!: string;
 
-  @ManyToOne(() => Address, { nullable: true })
+  @ManyToOne(() => Address, { nullable: true, joinColumn: 'address_id' })
   address?: Address;
 
   @OneToMany(() => EstablishmentProfessional, (ep) => ep.establishment)

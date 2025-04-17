@@ -404,8 +404,8 @@
           "length": 255,
           "mappedType": "string"
         },
-        "owner_id": {
-          "name": "owner_id",
+        "professional_id": {
+          "name": "professional_id",
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
@@ -518,10 +518,10 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "establishments_owner_id_foreign": {
-          "constraintName": "establishments_owner_id_foreign",
+        "establishments_professional_id_foreign": {
+          "constraintName": "establishments_professional_id_foreign",
           "columnNames": [
-            "owner_id"
+            "professional_id"
           ],
           "localTableName": "public.establishments",
           "referencedColumnNames": [
@@ -555,15 +555,6 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "uuid"
-        },
-        "professional_id": {
-          "name": "professional_id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
           "mappedType": "uuid"
         },
         "establishment_id": {
@@ -670,19 +661,6 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "notification_templates_professional_id_foreign": {
-          "constraintName": "notification_templates_professional_id_foreign",
-          "columnNames": [
-            "professional_id"
-          ],
-          "localTableName": "public.notification_templates",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.professionals",
-          "deleteRule": "set null",
-          "updateRule": "cascade"
-        },
         "notification_templates_establishment_id_foreign": {
           "constraintName": "notification_templates_establishment_id_foreign",
           "columnNames": [
@@ -793,15 +771,6 @@
           "nullable": false,
           "mappedType": "uuid"
         },
-        "professional_id": {
-          "name": "professional_id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "uuid"
-        },
         "establishment_id": {
           "name": "establishment_id",
           "type": "uuid",
@@ -869,19 +838,6 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "anamnesis_questions_professional_id_foreign": {
-          "constraintName": "anamnesis_questions_professional_id_foreign",
-          "columnNames": [
-            "professional_id"
-          ],
-          "localTableName": "public.anamnesis_questions",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.professionals",
-          "deleteRule": "set null",
-          "updateRule": "cascade"
-        },
         "anamnesis_questions_establishment_id_foreign": {
           "constraintName": "anamnesis_questions_establishment_id_foreign",
           "columnNames": [
@@ -902,15 +858,6 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "uuid"
-        },
-        "professional_id": {
-          "name": "professional_id",
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
@@ -973,18 +920,6 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "anamneses_professional_id_foreign": {
-          "constraintName": "anamneses_professional_id_foreign",
-          "columnNames": [
-            "professional_id"
-          ],
-          "localTableName": "public.anamneses",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.professionals",
-          "updateRule": "cascade"
-        },
         "anamneses_establishment_id_foreign": {
           "constraintName": "anamneses_establishment_id_foreign",
           "columnNames": [
@@ -1115,15 +1050,6 @@
           "nullable": false,
           "mappedType": "uuid"
         },
-        "professional_id": {
-          "name": "professional_id",
-          "type": "uuid",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "uuid"
-        },
         "establishment_id": {
           "name": "establishment_id",
           "type": "uuid",
@@ -1189,18 +1115,6 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "schedules_professional_id_foreign": {
-          "constraintName": "schedules_professional_id_foreign",
-          "columnNames": [
-            "professional_id"
-          ],
-          "localTableName": "public.schedules",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.professionals",
-          "updateRule": "cascade"
-        },
         "schedules_establishment_id_foreign": {
           "constraintName": "schedules_establishment_id_foreign",
           "columnNames": [
@@ -1361,6 +1275,15 @@
           "nullable": false,
           "mappedType": "uuid"
         },
+        "professional_id": {
+          "name": "professional_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
         "start_time": {
           "name": "start_time",
           "type": "time(0)",
@@ -1417,6 +1340,18 @@
       ],
       "checks": [],
       "foreignKeys": {
+        "time_slots_professional_id_foreign": {
+          "constraintName": "time_slots_professional_id_foreign",
+          "columnNames": [
+            "professional_id"
+          ],
+          "localTableName": "public.time_slots",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.professionals",
+          "updateRule": "cascade"
+        },
         "time_slots_schedule_id_foreign": {
           "constraintName": "time_slots_schedule_id_foreign",
           "columnNames": [

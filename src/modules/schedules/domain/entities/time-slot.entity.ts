@@ -1,10 +1,14 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Schedule } from './schedule.entity';
+import { Professional } from '@/professionals/domain/entities/professionals.entity';
 
 @Entity({ tableName: 'time_slots' })
 export class TimeSlot {
   @PrimaryKey({ name: 'id', type: 'uuid' })
   id!: string;
+
+  @ManyToOne(() => Professional, { joinColumn: 'professional_id' })
+  professional!: Professional;
 
   @Property({ name: 'start_time', type: 'time', nullable: false })
   startTime!: string;
