@@ -22,6 +22,14 @@ export class ProfessionalPgRepository implements IProfessionalRepository {
     return professional;
   }
 
+  async findById(id: string): Promise<Professional | null> {
+    const professional = await this.entityManager.findOne(Professional, {
+      id: id,
+    });
+
+    return professional;
+  }
+
   async findByEmail(email: string): Promise<Professional | null> {
     const professional = await this.entityManager.findOne(Professional, {
       email: email,
