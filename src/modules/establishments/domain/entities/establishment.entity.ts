@@ -30,7 +30,13 @@ export class Establishment {
   @Property({ name: 'phone', type: 'varchar', length: 11, nullable: true })
   phone?: string;
 
-  @Property({ name: 'email', type: 'varchar', length: 255, nullable: true })
+  @Property({
+    name: 'email',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+    unique: true,
+  })
   email?: string;
 
   @Property({ name: 'public_url', type: 'varchar', unique: true })
