@@ -7,12 +7,16 @@ import { CoreModule } from '@/core/core.module';
 import { ClientsModule } from '@/clients/clients.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ProfessionalOAuthLogInUseCase } from './application/usecases/professional-oAuth-login.usecase';
+import { ProfessionalAuthController } from './api/controllers/professionals-auth/professional-auth.controller';
+import { ProfessionalModule } from '@/professionals/professionals.module';
 
 @Module({
-  controllers: [ClientAuthController],
+  controllers: [ClientAuthController, ProfessionalAuthController],
   imports: [
     CoreModule,
     ClientsModule,
+    ProfessionalModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -25,7 +29,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthProviderFactory, GoogleAuthProvider, ClientOAuthLogInUseCase],
+  providers: [
+    AuthProviderFactory,
+    GoogleAuthProvider,
+    ClientOAuthLogInUseCase,
+    ProfessionalOAuthLogInUseCase,
+  ],
   exports: [JwtModule],
 })
 export class AuthModule {}
