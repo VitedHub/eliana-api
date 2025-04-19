@@ -42,8 +42,8 @@ export class Establishment {
   @Property({ name: 'public_url', type: 'varchar', unique: true })
   publicUrl!: string;
 
-  @ManyToOne(() => Address, { nullable: true, joinColumn: 'address_id' })
-  address?: Address;
+  @ManyToOne(() => Address, { nullable: false, joinColumn: 'address_id' })
+  address!: Address;
 
   @OneToMany(() => EstablishmentProfessional, (ep) => ep.establishment)
   professionals = new Collection<EstablishmentProfessional>(this);

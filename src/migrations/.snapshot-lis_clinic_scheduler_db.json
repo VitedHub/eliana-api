@@ -478,7 +478,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
+          "nullable": false,
           "mappedType": "uuid"
         },
         "created_at": {
@@ -560,7 +560,6 @@
             "id"
           ],
           "referencedTableName": "public.addresses",
-          "deleteRule": "set null",
           "updateRule": "cascade"
         }
       },
