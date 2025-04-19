@@ -6,7 +6,10 @@ export class Address {
   id!: string;
 
   @Property({ type: 'varchar' })
-  number!: string;
+  street!: string;
+
+  @Property({ type: 'varchar', nullable: true })
+  number?: string;
 
   @Property({ type: 'varchar', nullable: true })
   complement?: string;
@@ -23,8 +26,8 @@ export class Address {
   @Property({ type: 'varchar' })
   zipCode!: string;
 
-  @Property({ type: 'varchar', default: 'Brasil' })
-  country: string = 'Brasil';
+  @Property({ type: 'varchar', default: 'Brazil' })
+  country: string = 'Brazil';
 
   @Property({ type: 'float', nullable: true })
   latitude?: number;
