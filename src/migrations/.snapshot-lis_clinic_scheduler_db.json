@@ -414,8 +414,8 @@
           "length": 255,
           "mappedType": "string"
         },
-        "professional_id": {
-          "name": "professional_id",
+        "owner_id": {
+          "name": "owner_id",
           "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
@@ -538,10 +538,10 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "establishments_professional_id_foreign": {
-          "constraintName": "establishments_professional_id_foreign",
+        "establishments_owner_id_foreign": {
+          "constraintName": "establishments_owner_id_foreign",
           "columnNames": [
-            "professional_id"
+            "owner_id"
           ],
           "localTableName": "public.establishments",
           "referencedColumnNames": [

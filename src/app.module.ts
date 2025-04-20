@@ -19,6 +19,10 @@ import { AnamnesisModule } from '@/anamneses/anamnesis.module';
 import { ScheduleModule } from '@/schedules/schedule.module';
 import { AppointmentModule } from '@/appointments/appointment.module';
 import { ScheduleException } from '@/schedules/domain/entities/schedule-exception.entity';
+import { EstablishmentsModule } from '@/establishments/establishments.module';
+import { AddressesModule } from '@/addresses/addresses.module';
+import { ProfessionalModule } from '@/professionals/professionals.module';
+import { NormalizeFieldsSubscriber } from '@/core/data/subscribers/normalize-fields.subscriber';
 
 @Module({
   imports: [
@@ -48,6 +52,7 @@ import { ScheduleException } from '@/schedules/domain/entities/schedule-exceptio
         password: configService.get('DB_PASSWORD'),
         host: configService.get('DB_HOST'),
         port: +configService.get('DB_PORT'),
+        subscribers: [NormalizeFieldsSubscriber],
       }),
       inject: [ConfigService],
     }),
@@ -56,6 +61,9 @@ import { ScheduleException } from '@/schedules/domain/entities/schedule-exceptio
     AnamnesisModule,
     ScheduleModule,
     AppointmentModule,
+    ProfessionalModule,
+    EstablishmentsModule,
+    AddressesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -18,7 +18,7 @@ export class Establishment {
   @Property({ name: 'cnpj', type: 'varchar', nullable: true, unique: true })
   cnpj?: string;
 
-  @ManyToOne(() => Professional, { joinColumn: 'professional_id' })
+  @ManyToOne(() => Professional, { joinColumn: 'owner_id' })
   owner!: string;
 
   @Property({ name: 'name', type: 'varchar', length: 255, nullable: false })
