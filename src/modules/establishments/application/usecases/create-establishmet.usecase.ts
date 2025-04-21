@@ -1,4 +1,4 @@
-import { Inject, NotFoundException } from '@nestjs/common';
+import { ConflictException, Inject, NotFoundException } from '@nestjs/common';
 import { IEstablishmentRepository } from '../repositories/establishment.repository';
 import { AddressFactory } from '@/addresses/domain/factories/address.factory';
 import { EstablishmentFactory } from '@/establishments/domain/factories/establishment.factory';
@@ -37,6 +37,16 @@ export class CreateEstablishment {
     }
 
     const address = AddressFactory.create({ ...data.address });
+
+    const establishmentExists = await this.establishmentRepo.findByCnpj(
+      data.cnpj,
+    );
+
+    if (establishmentExists) {
+      throw new ConflictException(
+        'Establishment already registered with this CNPJ',
+      );
+    }
 
     const establishment = EstablishmentFactory.create({
       ...data,

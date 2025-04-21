@@ -34,4 +34,19 @@ export class EstablishmentPgRepository implements IEstablishmentRepository {
 
     return establishments;
   }
+
+  async findById(id: string): Promise<Establishment | null> {
+    const establishment = await this.entityManager.findOne(Establishment, id, {
+      populate: ['address'],
+    });
+
+    return establishment;
+  }
+
+  async findByCnpj(cnpj: string): Promise<Establishment | null> {
+    const establishment = await this.entityManager.findOne(Establishment, {
+      cnpj,
+    });
+    return establishment;
+  }
 }

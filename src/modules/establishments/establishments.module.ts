@@ -7,12 +7,14 @@ import { ProfessionalModule } from '@/professionals/professionals.module';
 import { AddressesModule } from '@/addresses/addresses.module';
 import { AuthModule } from '@/auth/auth.module';
 import { ListProfessionalEstablishments } from './application/usecases/list-professional-establishments.usecase';
+import { DetailEstablishment } from './application/usecases/detail-establishment.usecase';
 
 @Module({
   imports: [AuthModule, ProfessionalModule, AddressesModule],
   providers: [
     CreateEstablishment,
     ListProfessionalEstablishments,
+    DetailEstablishment,
     {
       provide: IEstablishmentRepository,
       useClass: EstablishmentPgRepository,
