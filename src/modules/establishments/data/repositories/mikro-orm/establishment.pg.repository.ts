@@ -23,4 +23,15 @@ export class EstablishmentPgRepository implements IEstablishmentRepository {
       return establishment;
     });
   }
+
+  async findByOwner(ownerId: string): Promise<Establishment[]> {
+    const establishments = await this.entityManager.findAll(Establishment, {
+      where: {
+        owner: ownerId,
+      },
+      populate: ['owner', 'address', 'professionals'],
+    });
+
+    return establishments;
+  }
 }

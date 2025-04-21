@@ -20,7 +20,7 @@ export class Address {
   @Property({ type: 'varchar' })
   city!: string;
 
-  @Property({ type: 'varchar' })
+  @Property({ type: 'varchar', length: 2 })
   state!: string;
 
   @Property({ type: 'varchar' })

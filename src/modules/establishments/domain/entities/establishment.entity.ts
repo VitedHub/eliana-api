@@ -19,7 +19,7 @@ export class Establishment {
   cnpj?: string;
 
   @ManyToOne(() => Professional, { joinColumn: 'owner_id' })
-  owner!: string;
+  owner!: Professional;
 
   @Property({ name: 'name', type: 'varchar', length: 255, nullable: false })
   name!: string;

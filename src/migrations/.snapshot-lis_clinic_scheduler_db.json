@@ -67,12 +67,12 @@
         },
         "state": {
           "name": "state",
-          "type": "varchar(255)",
+          "type": "varchar(2)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 255,
+          "length": 2,
           "mappedType": "string"
         },
         "zip_code": {

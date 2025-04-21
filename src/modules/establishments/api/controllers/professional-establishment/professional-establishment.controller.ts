@@ -2,15 +2,19 @@ import { User } from '@/auth/api/decorators/user.decorator';
 import { ProfessionalAuthGuard } from '@/auth/api/guards/profesional-auth.guard';
 import { CreateEstablishment } from '@/establishments/application/usecases/create-establishmet.usecase';
 import { Professional } from '@/professionals/domain/entities/professionals.entity';
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { CreateEstablishmentPresenter } from './presenter/create-establishment.presenter';
 import { CreateEstablishmentRequest } from './requests/create-establishments.request';
+import { ListProfessionalEstablishments } from '@/establishments/application/usecases/list-professional-establishments.usecase';
+import { ListProfessionalEstablishmentsPresenter } from './presenter/list-professional-establishments.presenter';
 
 @UseGuards(ProfessionalAuthGuard)
 @Controller('professional/establishment')
 export class ProfessionalEstablishmentController {
   @Inject(CreateEstablishment)
   private readonly createEstablishmentUseCase: CreateEstablishment;
+  @Inject(ListProfessionalEstablishments)
+  private readonly listProfessionalEstablishmentsUseCase: ListProfessionalEstablishments;
 
   @Post()
   async createEstablishment(
@@ -23,5 +27,17 @@ export class ProfessionalEstablishmentController {
     });
 
     return CreateEstablishmentPresenter.toHTTP(result);
+  }
+
+  @Get()
+  async listEstablishments(@User() professional: Professional) {
+    const result = await this.listProfessionalEstablishmentsUseCase.execute({
+      ownerId: professional.id,
+    });
+
+    return ListProfessionalEstablishmentsPresenter.toHTTP(
+      professional.id,
+      result,
+    );
   }
 }

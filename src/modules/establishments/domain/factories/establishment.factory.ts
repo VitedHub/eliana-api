@@ -1,13 +1,14 @@
 import { Address } from '@/addresses/domain/entities/address.entity';
 import { Establishment } from '../entities/establishment.entity';
 import { randomUUID } from 'crypto';
+import { Professional } from '@/professionals/domain/entities/professionals.entity';
 
 export class EstablishmentFactory {
   static create(data: EstablishmentData): Establishment {
     const establishment = new Establishment();
     establishment.id = randomUUID();
     establishment.description = data.description;
-    establishment.owner = data.ownerId;
+    establishment.owner = data.owner;
     establishment.name = data.name;
     establishment.cnpj = data.cnpj;
     establishment.phone = data.phone;
@@ -32,7 +33,7 @@ export class EstablishmentFactory {
 }
 
 interface EstablishmentData {
-  ownerId: string;
+  owner: Professional;
   description: string;
   name: string;
   cnpj?: string;

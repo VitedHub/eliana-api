@@ -41,7 +41,7 @@ export class CreateEstablishment {
     const establishment = EstablishmentFactory.create({
       ...data,
       address,
-      ownerId: owner.id,
+      owner,
     });
 
     return await this.establishmentRepo.create(establishment);
