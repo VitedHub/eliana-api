@@ -14,6 +14,13 @@ export class EstablishmentProfessional {
   establishment: Establishment;
 
   @Property({
+    name: 'is_active',
+    type: 'boolean',
+    default: true,
+  })
+  active: boolean = true;
+
+  @Property({
     name: 'created_at',
     onCreate: () => new Date(),
     type: 'timestamp with time zone',

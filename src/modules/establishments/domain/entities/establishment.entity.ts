@@ -9,6 +9,7 @@ import {
 } from '@mikro-orm/core';
 import { EstablishmentProfessional } from './establishment-professional.entity';
 import { Professional } from '@/professionals/domain/entities/professionals.entity';
+import { Schedule } from '@/schedules/domain/entities/schedule.entity';
 
 @Entity({ tableName: 'establishments' })
 export class Establishment {
@@ -20,6 +21,9 @@ export class Establishment {
 
   @ManyToOne(() => Professional, { joinColumn: 'owner_id' })
   owner!: Professional;
+
+  @OneToMany(() => Schedule, (schedule) => schedule.establishment)
+  schedules = new Collection<Schedule>(this);
 
   @Property({ name: 'name', type: 'varchar', length: 255, nullable: false })
   name!: string;

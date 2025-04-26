@@ -38,9 +38,9 @@ export class CreateEstablishment {
 
     const address = AddressFactory.create({ ...data.address });
 
-    const establishmentExists = await this.establishmentRepo.findByCnpj(
-      data.cnpj,
-    );
+    const establishmentExists =
+      (await this.establishmentRepo.findByCnpj(data.cnpj)) ||
+      (await this.establishmentRepo.findByEmail(data.email));
 
     if (establishmentExists) {
       throw new ConflictException(

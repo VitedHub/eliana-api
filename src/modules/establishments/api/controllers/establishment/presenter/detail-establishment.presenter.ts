@@ -7,6 +7,7 @@ export class DetailEstablishmentPresenter {
       name: data.name,
       description: data.description,
       publicUrl: data.publicUrl,
+      schedule: data.schedules,
       email: data.email,
       phone: data.phone,
       address: {

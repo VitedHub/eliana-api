@@ -1,8 +1,11 @@
 import { Address } from '@/addresses/domain/entities/address.entity';
 import { IEstablishmentRepository } from '@/establishments/application/repositories/establishment.repository';
 import { Establishment } from '@/establishments/domain/entities/establishment.entity';
+import { Schedule } from '@/schedules/domain/entities/schedule.entity';
+import { DAY_OF_WEEK } from '@/schedules/domain/enums/day-of-week.enum';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Inject } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 
 export class EstablishmentPgRepository implements IEstablishmentRepository {
   @Inject(EntityManager)
@@ -18,6 +21,18 @@ export class EstablishmentPgRepository implements IEstablishmentRepository {
       const establishment = em.create(Establishment, {
         ...data,
         address,
+      });
+
+      Object.values(DAY_OF_WEEK).map((day) => {
+        const isWeekend =
+          day === DAY_OF_WEEK.SATURDAY || day === DAY_OF_WEEK.SUNDAY;
+
+        return em.create(Schedule, {
+          id: randomUUID(),
+          dayOfWeek: day,
+          isActive: !isWeekend,
+          establishment,
+        });
       });
 
       return establishment;
@@ -37,9 +52,16 @@ export class EstablishmentPgRepository implements IEstablishmentRepository {
 
   async findById(id: string): Promise<Establishment | null> {
     const establishment = await this.entityManager.findOne(Establishment, id, {
-      populate: ['address', 'professionals'],
+      populate: ['address', 'professionals', 'schedules'],
     });
 
+    return establishment;
+  }
+
+  async findByEmail(email: string): Promise<Establishment | null> {
+    const establishment = await this.entityManager.findOne(Establishment, {
+      email,
+    });
     return establishment;
   }
 
