@@ -37,7 +37,7 @@ export class EstablishmentPgRepository implements IEstablishmentRepository {
 
   async findById(id: string): Promise<Establishment | null> {
     const establishment = await this.entityManager.findOne(Establishment, id, {
-      populate: ['address'],
+      populate: ['address', 'professionals'],
     });
 
     return establishment;

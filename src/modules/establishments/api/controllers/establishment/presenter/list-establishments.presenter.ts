@@ -1,6 +1,6 @@
 import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 
-export class ListProfessionalEstablishmentsPresenter {
+export class ListEstablishmentsPresenter {
   static toHTTP(profesionalId: string, data: Establishment[]) {
     const mapEstablishment = (establishment: Establishment) => ({
       id: establishment.id,

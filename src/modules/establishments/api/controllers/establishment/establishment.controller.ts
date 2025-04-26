@@ -13,20 +13,24 @@ import {
 } from '@nestjs/common';
 import { CreateEstablishmentPresenter } from './presenter/create-establishment.presenter';
 import { CreateEstablishmentRequest } from './requests/create-establishments.request';
-import { ListProfessionalEstablishments } from '@/establishments/application/usecases/list-professional-establishments.usecase';
-import { ListProfessionalEstablishmentsPresenter } from './presenter/list-professional-establishments.presenter';
+import { ListEstablishments } from '@/establishments/application/usecases/list-establishments.usecase';
+import { ListEstablishmentsPresenter } from './presenter/list-establishments.presenter';
 import { DetailEstablishment } from '@/establishments/application/usecases/detail-establishment.usecase';
 import { DetailEstablishmentPresenter } from './presenter/detail-establishment.presenter';
+import { ListEstablishmentProfessionals } from '@/establishments/application/usecases/list-establishment-professionals.usecase';
+import { ListEstablishmentProfessionalsPresenter } from './presenter/list-establishment-professionals.presenter';
 
 @UseGuards(ProfessionalAuthGuard)
-@Controller('professional/establishment')
+@Controller('establishments')
 export class ProfessionalEstablishmentController {
   @Inject(CreateEstablishment)
   private readonly createEstablishmentUseCase: CreateEstablishment;
-  @Inject(ListProfessionalEstablishments)
-  private readonly listProfessionalEstablishmentsUseCase: ListProfessionalEstablishments;
+  @Inject(ListEstablishments)
+  private readonly listEstablishmentsUseCase: ListEstablishments;
   @Inject(DetailEstablishment)
   private readonly detailEstablishmentUseCase: DetailEstablishment;
+  @Inject(ListEstablishmentProfessionals)
+  private readonly listEstablishmentProfessionalsUseCase: ListEstablishmentProfessionals;
 
   @Post()
   async createEstablishment(
@@ -43,14 +47,11 @@ export class ProfessionalEstablishmentController {
 
   @Get()
   async listEstablishments(@User() professional: Professional) {
-    const result = await this.listProfessionalEstablishmentsUseCase.execute({
+    const result = await this.listEstablishmentsUseCase.execute({
       ownerId: professional.id,
     });
 
-    return ListProfessionalEstablishmentsPresenter.toHTTP(
-      professional.id,
-      result,
-    );
+    return ListEstablishmentsPresenter.toHTTP(professional.id, result);
   }
 
   @Get(':id')
@@ -64,5 +65,18 @@ export class ProfessionalEstablishmentController {
     });
 
     return DetailEstablishmentPresenter.toHTTP(result);
+  }
+
+  @Get(':id/professionals')
+  async listEstablishmentProfessionals(
+    @User() professional: Professional,
+    @Param('id') id: string,
+  ) {
+    const result = await this.listEstablishmentProfessionalsUseCase.execute({
+      establishmentId: id,
+      ownerId: professional.id,
+    });
+
+    return result.map(ListEstablishmentProfessionalsPresenter.toHTTP);
   }
 }

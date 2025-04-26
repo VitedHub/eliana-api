@@ -3,19 +3,17 @@ import { Inject, NotFoundException } from '@nestjs/common';
 import { IEstablishmentRepository } from '../repositories/establishment.repository';
 import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 
-export type ListProfessionalEstablishmentsInput = {
+export type ListEstablishmentsInput = {
   ownerId: string;
 };
 
-export class ListProfessionalEstablishments {
+export class ListEstablishments {
   @Inject(IProfessionalRepository)
   private readonly professionalRepo: IProfessionalRepository;
   @Inject(IEstablishmentRepository)
   private readonly establishmentRepo: IEstablishmentRepository;
 
-  async execute(
-    data: ListProfessionalEstablishmentsInput,
-  ): Promise<Establishment[]> {
+  async execute(data: ListEstablishmentsInput): Promise<Establishment[]> {
     const owner = await this.professionalRepo.findById(data.ownerId);
 
     if (!owner) {
