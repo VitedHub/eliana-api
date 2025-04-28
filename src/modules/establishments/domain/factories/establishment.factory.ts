@@ -3,7 +3,7 @@ import { Establishment } from '../entities/establishment.entity';
 import { randomUUID } from 'crypto';
 import { Professional } from '@/professionals/domain/entities/professionals.entity';
 
-export class EstablishmentFactory {
+export class EstablishmentBuilder {
   static create(data: EstablishmentData): Establishment {
     const establishment = new Establishment();
     establishment.id = randomUUID();

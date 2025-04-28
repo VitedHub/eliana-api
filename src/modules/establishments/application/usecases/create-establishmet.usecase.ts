@@ -1,7 +1,7 @@
 import { ConflictException, Inject, NotFoundException } from '@nestjs/common';
 import { IEstablishmentRepository } from '../repositories/establishment.repository';
-import { AddressFactory } from '@/addresses/domain/factories/address.factory';
-import { EstablishmentFactory } from '@/establishments/domain/factories/establishment.factory';
+import { AddressBuilder } from '@/addresses/domain/factories/address.factory';
+import { EstablishmentBuilder } from '@/establishments/domain/factories/establishment.factory';
 import { IProfessionalRepository } from '@/professionals/application/repositories/professional.repository';
 import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 
@@ -36,7 +36,7 @@ export class CreateEstablishment {
       throw new NotFoundException('Owner not found');
     }
 
-    const address = AddressFactory.create({ ...data.address });
+    const address = AddressBuilder.create({ ...data.address });
 
     const establishmentExists =
       (await this.establishmentRepo.findByCnpj(data.cnpj)) ||
@@ -48,7 +48,7 @@ export class CreateEstablishment {
       );
     }
 
-    const establishment = EstablishmentFactory.create({
+    const establishment = EstablishmentBuilder.create({
       ...data,
       address,
       owner,

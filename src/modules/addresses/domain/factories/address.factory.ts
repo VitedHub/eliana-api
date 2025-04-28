@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { Address } from '../entities/address.entity';
 
-export class AddressFactory {
+export class AddressBuilder {
   static create(data: AddressData): Address {
     const address = new Address();
     address.id = randomUUID();
