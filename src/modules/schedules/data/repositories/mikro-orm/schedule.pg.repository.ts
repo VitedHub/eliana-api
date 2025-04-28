@@ -1,3 +1,4 @@
+import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 import { IScheduleRepository } from '@/schedules/application/repositories/schedule.repository';
 import { Schedule } from '@/schedules/domain/entities/schedule.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
@@ -24,5 +25,22 @@ export class SchedulePgRepository implements IScheduleRepository {
         fields: ['id', 'dayOfWeek'],
       },
     );
+  }
+
+  async update(data: {
+    id: string;
+    isActive: boolean;
+    establishment: Establishment;
+  }): Promise<Schedule> {
+    const schedule = await this.entityManager.findOneOrFail(Schedule, {
+      id: data.id,
+      establishment: data.establishment,
+    });
+
+    schedule.isActive = data.isActive;
+
+    await this.entityManager.flush();
+
+    return schedule;
   }
 }

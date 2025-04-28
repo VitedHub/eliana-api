@@ -9,14 +9,17 @@ import { AuthModule } from '@/auth/auth.module';
 import { ListEstablishments } from './application/usecases/list-establishments.usecase';
 import { DetailEstablishment } from './application/usecases/detail-establishment.usecase';
 import { ListEstablishmentProfessionals } from './application/usecases/list-establishment-professionals.usecase';
+import { UpdateEstablishmentSchedule } from './application/usecases/update-establishment-schedule.usecase';
+import { ScheduleModule } from '@/schedules/schedule.module';
 
 @Module({
-  imports: [AuthModule, ProfessionalModule, AddressesModule],
+  imports: [AuthModule, ProfessionalModule, AddressesModule, ScheduleModule],
   providers: [
     CreateEstablishment,
     ListEstablishments,
     DetailEstablishment,
     ListEstablishmentProfessionals,
+    UpdateEstablishmentSchedule,
     {
       provide: IEstablishmentRepository,
       useClass: EstablishmentPgRepository,

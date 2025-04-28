@@ -8,6 +8,7 @@ import {
   Get,
   Inject,
   Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -19,6 +20,8 @@ import { DetailEstablishment } from '@/establishments/application/usecases/detai
 import { DetailEstablishmentPresenter } from './presenter/detail-establishment.presenter';
 import { ListEstablishmentProfessionals } from '@/establishments/application/usecases/list-establishment-professionals.usecase';
 import { ListEstablishmentProfessionalsPresenter } from './presenter/list-establishment-professionals.presenter';
+import { UpdateEstablishmentSchedule } from '@/establishments/application/usecases/update-establishment-schedule.usecase';
+import { UpdateEstablishmentSchedulePresenter } from './presenter/update-establishment-schedule.presenter';
 
 @UseGuards(ProfessionalAuthGuard)
 @Controller('establishments')
@@ -31,6 +34,8 @@ export class ProfessionalEstablishmentController {
   private readonly detailEstablishmentUseCase: DetailEstablishment;
   @Inject(ListEstablishmentProfessionals)
   private readonly listEstablishmentProfessionalsUseCase: ListEstablishmentProfessionals;
+  @Inject(UpdateEstablishmentSchedule)
+  private readonly updateEstablishmentScheduleUseCase: UpdateEstablishmentSchedule;
 
   @Post()
   async createEstablishment(
@@ -78,5 +83,22 @@ export class ProfessionalEstablishmentController {
     });
 
     return result.map(ListEstablishmentProfessionalsPresenter.toHTTP);
+  }
+
+  @Patch(':id/schedules/:scheduleId')
+  async updateSchedule(
+    @User() professional: Professional,
+    @Param('id') id: string,
+    @Param('scheduleId') scheduleId: string,
+    @Body('isActive') isActive: boolean,
+  ) {
+    const result = await this.updateEstablishmentScheduleUseCase.execute({
+      ownerId: professional.id,
+      establishmentId: id,
+      scheduleId,
+      isActive,
+    });
+
+    return UpdateEstablishmentSchedulePresenter.toHTTP(result);
   }
 }
