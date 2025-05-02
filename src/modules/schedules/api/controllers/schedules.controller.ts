@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { CreateTimeSlotRequest } from './requests/create-time-slot.request';
 import { CreateTimeSlot } from '@/schedules/application/usecases/create-time-slot.usecase';
+import { CreateTimeSlotPresenter } from './presenters/create-time-slot.presenter';
 
 @UseGuards(ProfessionalAuthGuard)
 @Controller('schedules')
@@ -24,12 +25,12 @@ export class ScheduleController {
     @Param('scheduleId') scheduleId: string,
     @Body() body: CreateTimeSlotRequest,
   ) {
-    const result = await this.createTimeSlotUseCase.execute({
+    await this.createTimeSlotUseCase.execute({
       ...body,
       scheduleId,
       requesterId: requester.id,
     });
 
-    return result;
+    return CreateTimeSlotPresenter.toHTTP();
   }
 }
