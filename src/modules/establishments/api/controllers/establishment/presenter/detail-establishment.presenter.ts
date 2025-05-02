@@ -7,7 +7,11 @@ export class DetailEstablishmentPresenter {
       name: data.name,
       description: data.description,
       publicUrl: data.publicUrl,
-      schedule: data.schedules,
+      schedules: data.schedules.map((schedule) => ({
+        id: schedule.id,
+        dayOfWeek: schedule.dayOfWeek,
+        isActive: schedule.isActive,
+      })),
       email: data.email,
       phone: data.phone,
       address: {
