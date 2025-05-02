@@ -1,5 +1,5 @@
 import { IScheduleExceptionRepository } from '@/schedules/application/repositories/schedule-exception.repository';
-import { IAppointmentRepository } from '../repositories/appointment.repository';
+import { IClientAppointmentRepository } from '../repositories/client-appointment.repository';
 import { IScheduleRepository } from '@/schedules/application/repositories/schedule.repository';
 import { Inject } from '@nestjs/common';
 import { getDay, isSameDay, parseISO } from 'date-fns';
@@ -15,8 +15,8 @@ export class GetAvailableDayTimeSlots {
   private scheduleRepo: IScheduleRepository;
   @Inject(IScheduleExceptionRepository)
   private ScheduleExceptionRepo: IScheduleExceptionRepository;
-  @Inject(IAppointmentRepository)
-  private appointmentRepo: IAppointmentRepository;
+  @Inject(IClientAppointmentRepository)
+  private appointmentRepo: IClientAppointmentRepository;
 
   async execute(data: GetAvailableDayTimeSlotsInput) {
     const availableTimeSlot: TimeSlot[] = [];

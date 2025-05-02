@@ -3,17 +3,13 @@ import { APPOINTMENT_STATUS } from '@/appointments/domain/enums/appointment-stat
 import { Client } from '@/clients/domain/entities/client.entity';
 import { TimeSlot } from '@/schedules/domain/entities/time-slot.entity';
 
-export abstract class IAppointmentRepository {
+export abstract class IClientAppointmentRepository {
   abstract bookAppointment(data: BookAppointmentInput): Promise<Appointment>;
+
   abstract listClientAppointments(data: {
     clientId: string;
   }): Promise<Appointment[]>;
-  abstract getProfessionalDailyAppointment(
-    data: GetProfessionalDailyAppointmentIput,
-  ): Promise<Appointment[]>;
-  abstract getProfessionalAppointmentInRange(
-    data: GetProfessionalAppointmentsInRangeInput,
-  ): Promise<Appointment[]>;
+
   abstract getBookedDates(data: {
     startDate: Date;
     endDate: Date;

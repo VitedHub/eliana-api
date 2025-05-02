@@ -1,13 +1,13 @@
 import { Inject } from '@nestjs/common';
-import { IAppointmentRepository } from '../repositories/appointment.repository';
+import { IClientAppointmentRepository } from '../repositories/client-appointment.repository';
 
 export type ListClientAppointmentsInput = {
   clientId: string;
 };
 
 export class ListClientAppointments {
-  @Inject(IAppointmentRepository)
-  private appotintmentRepo: IAppointmentRepository;
+  @Inject(IClientAppointmentRepository)
+  private appotintmentRepo: IClientAppointmentRepository;
 
   async execute(data: ListClientAppointmentsInput) {
     return await this.appotintmentRepo.listClientAppointments({

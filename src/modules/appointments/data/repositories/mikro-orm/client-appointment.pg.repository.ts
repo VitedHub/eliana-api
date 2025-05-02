@@ -1,15 +1,15 @@
 import {
   BookAppointmentInput,
-  IAppointmentRepository,
-  GetProfessionalAppointmentsInRangeInput,
-  GetProfessionalDailyAppointmentIput,
-} from '@/appointments/application/repositories/appointment.repository';
+  IClientAppointmentRepository,
+} from '@/appointments/application/repositories/client-appointment.repository';
 import { Appointment } from '@/appointments/domain/entities/appointment.entity';
 import { APPOINTMENT_STATUS } from '@/appointments/domain/enums/appointment-status.enum';
 import { EntityManager, LockMode } from '@mikro-orm/postgresql';
 import { ConflictException, Inject } from '@nestjs/common';
 
-export class AppointmentPgRepository implements IAppointmentRepository {
+export class ClientAppointmentPgRepository
+  implements IClientAppointmentRepository
+{
   @Inject(EntityManager)
   private readonly entityManager: EntityManager;
 
@@ -52,36 +52,6 @@ export class AppointmentPgRepository implements IAppointmentRepository {
         client: data.clientId,
       },
       populate: ['timeSlot', 'timeSlot.schedule'],
-    });
-  }
-
-  async getProfessionalDailyAppointment(
-    data: GetProfessionalDailyAppointmentIput,
-  ): Promise<Appointment[]> {
-    return await this.entityManager.findAll(Appointment, {
-      where: {
-        professional: data.professionalId,
-        date: data.date,
-        ...(data.establishmentId && { establishment: data.establishmentId }),
-      },
-      populate: ['client', 'timeSlot', 'establishment'],
-      orderBy: { timeSlot: { startTime: 'ASC' } },
-    });
-  }
-
-  async getProfessionalAppointmentInRange(
-    data: GetProfessionalAppointmentsInRangeInput,
-  ): Promise<Appointment[]> {
-    return await this.entityManager.findAll(Appointment, {
-      where: {
-        professional: data.professionalId,
-        date: {
-          $gte: data.startDate,
-          $lte: data.endDate,
-        },
-        ...(data.establishmentId && { establishment: data.establishmentId }),
-      },
-      populate: ['timeSlot'],
     });
   }
 

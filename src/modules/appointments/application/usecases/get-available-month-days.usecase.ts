@@ -1,5 +1,5 @@
 import { Inject } from '@nestjs/common';
-import { IAppointmentRepository } from '../repositories/appointment.repository';
+import { IClientAppointmentRepository } from '../repositories/client-appointment.repository';
 import { IScheduleExceptionRepository } from '@/schedules/application/repositories/schedule-exception.repository';
 import { IScheduleRepository } from '@/schedules/application/repositories/schedule.repository';
 import {
@@ -22,8 +22,8 @@ export class GetAvailableDays {
   private scheduleRepo: IScheduleRepository;
   @Inject(IScheduleExceptionRepository)
   private ScheduleExceptionRepo: IScheduleExceptionRepository;
-  @Inject(IAppointmentRepository)
-  private appointmentRepo: IAppointmentRepository;
+  @Inject(IClientAppointmentRepository)
+  private appointmentRepo: IClientAppointmentRepository;
 
   async execute(data: GetAvailableDaysInput) {
     const startMonthDate = startOfMonth(parseISO(`${data.month}-01`));

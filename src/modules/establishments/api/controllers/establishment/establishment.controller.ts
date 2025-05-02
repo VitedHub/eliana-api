@@ -10,6 +10,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CreateEstablishmentPresenter } from './presenter/create-establishment.presenter';
@@ -22,6 +23,8 @@ import { ListEstablishmentProfessionals } from '@/establishments/application/use
 import { ListEstablishmentProfessionalsPresenter } from './presenter/list-establishment-professionals.presenter';
 import { UpdateEstablishmentSchedule } from '@/establishments/application/usecases/update-establishment-schedule.usecase';
 import { UpdateEstablishmentSchedulePresenter } from './presenter/update-establishment-schedule.presenter';
+import { ListEstablishmentMonthAppointments } from '@/appointments/application/usecases/list-establishment-month-appointments.usecase';
+import { ListEstablishmentMonthAppointmentPresenter } from './presenter/list-establishment-month-appointments.presenter';
 
 @UseGuards(ProfessionalAuthGuard)
 @Controller('establishments')
@@ -36,6 +39,8 @@ export class ProfessionalEstablishmentController {
   private readonly listEstablishmentProfessionalsUseCase: ListEstablishmentProfessionals;
   @Inject(UpdateEstablishmentSchedule)
   private readonly updateEstablishmentScheduleUseCase: UpdateEstablishmentSchedule;
+  @Inject(ListEstablishmentMonthAppointments)
+  private readonly listMonthAppointmentDaysUseCase: ListEstablishmentMonthAppointments;
 
   @Post()
   async createEstablishment(
@@ -83,6 +88,23 @@ export class ProfessionalEstablishmentController {
     });
 
     return result.map(ListEstablishmentProfessionalsPresenter.toHTTP);
+  }
+
+  @Get(':id/appointments/days')
+  async listMonthAppointments(
+    @User() professional: Professional,
+    @Param('id') id: string,
+    @Query('month') month: string,
+    @Query('professionalId') professionalId?: string,
+  ) {
+    const result = await this.listMonthAppointmentDaysUseCase.execute({
+      requesterId: professional.id,
+      establishmentId: id,
+      month,
+      professionalId,
+    });
+
+    return ListEstablishmentMonthAppointmentPresenter.toHTTP(result);
   }
 
   @Patch(':id/schedules/:scheduleId')

@@ -2,8 +2,8 @@ import { ScheduleModule } from '@/schedules/schedule.module';
 import { Module } from '@nestjs/common';
 import { ClientAppointmentController } from './api/controllers/client-appointment.controller';
 import { GetAvailableDays } from './application/usecases/get-available-month-days.usecase';
-import { IAppointmentRepository } from './application/repositories/appointment.repository';
-import { AppointmentPgRepository } from './data/repositories/mikro-orm/appointment.pg.repository';
+import { IClientAppointmentRepository } from './application/repositories/client-appointment.repository';
+import { ClientAppointmentPgRepository } from './data/repositories/mikro-orm/client-appointment.pg.repository';
 import { GetAvailableDayTimeSlots } from './application/usecases/get-available-day-time-slots.usecase';
 import { ListClientAppointments } from './application/usecases/list-client-appointmnets.usecase';
 import { BookAppointment } from './application/usecases/book-appointment.usecase';
@@ -15,6 +15,11 @@ import { ListProfessionalMonthAppointmentDays } from './application/usecases/lis
 import { ProfessionalModule } from '@/professionals/professionals.module';
 import { ProfessionalAppointmentsController } from './api/controllers/professional-appointments.controller';
 import { ListProfessionalDailyAppointments } from './application/usecases/list-professional-daily-appointments.usecase';
+import { ListEstablishmentMonthAppointments } from './application/usecases/list-establishment-month-appointments.usecase';
+import { IProfessionalAppointmentRepository } from './application/repositories/professional-appointments.repository';
+import { ProfessionalAppointmentPgRepository } from './data/repositories/mikro-orm/professional-appointments.pg.repository';
+import { EstablishmentAppointmentPgRepository } from './data/repositories/mikro-orm/establishment-appointments.repository';
+import { IEstablishmentAppointmentRepository } from './application/repositories/establishment-appointments.repository';
 
 @Module({
   imports: [
@@ -26,8 +31,16 @@ import { ListProfessionalDailyAppointments } from './application/usecases/list-p
   ],
   providers: [
     {
-      provide: IAppointmentRepository,
-      useClass: AppointmentPgRepository,
+      provide: IClientAppointmentRepository,
+      useClass: ClientAppointmentPgRepository,
+    },
+    {
+      provide: IProfessionalAppointmentRepository,
+      useClass: ProfessionalAppointmentPgRepository,
+    },
+    {
+      provide: IEstablishmentAppointmentRepository,
+      useClass: EstablishmentAppointmentPgRepository,
     },
     GetAvailableDays,
     GetAvailableDayTimeSlots,
@@ -35,7 +48,9 @@ import { ListProfessionalDailyAppointments } from './application/usecases/list-p
     BookAppointment,
     ListProfessionalMonthAppointmentDays,
     ListProfessionalDailyAppointments,
+    ListEstablishmentMonthAppointments,
   ],
+  exports: [ListEstablishmentMonthAppointments],
   controllers: [
     ClientAppointmentController,
     AppointmentsController,

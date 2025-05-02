@@ -1,5 +1,5 @@
 import { Inject, NotFoundException } from '@nestjs/common';
-import { IAppointmentRepository } from '../repositories/appointment.repository';
+import { IClientAppointmentRepository } from '../repositories/client-appointment.repository';
 import { IClientRepository } from '@/clients/application/repositories/client.repository';
 import { GetAvailableDayTimeSlots } from './get-available-day-time-slots.usecase';
 import { APPOINTMENT_STATUS } from '@/appointments/domain/enums/appointment-status.enum';
@@ -19,8 +19,8 @@ export class BookAppointment {
   private clientRepo: IClientRepository;
   @Inject(GetAvailableDayTimeSlots)
   private getAvailableDayTimeSlots: GetAvailableDayTimeSlots;
-  @Inject(IAppointmentRepository)
-  private appointmentRepo: IAppointmentRepository;
+  @Inject(IClientAppointmentRepository)
+  private appointmentRepo: IClientAppointmentRepository;
 
   async execute(data: BookAppointmentInput): Promise<BookAppointmentOutput> {
     const client = await this.clientRepo.findById(data.clientId);

@@ -1,10 +1,10 @@
 import { ForbiddenException, Inject, NotFoundException } from '@nestjs/common';
-import { IAppointmentRepository } from '../repositories/appointment.repository';
 import { lastDayOfMonth, parseISO, startOfMonth } from 'date-fns';
 import { IProfessionalRepository } from '@/professionals/application/repositories/professional.repository';
 import { IEstablishmentRepository } from '@/establishments/application/repositories/establishment.repository';
+import { IProfessionalAppointmentRepository } from '../repositories/professional-appointments.repository';
 
-export type ListProfessionalMonthAppointmentDaysInptu = {
+export type ListProfessionalMonthAppointmentDaysInput = {
   professionalId: string;
   month: string;
   establishmentId?: string;
@@ -15,10 +15,10 @@ export class ListProfessionalMonthAppointmentDays {
   private readonly professionalRepo: IProfessionalRepository;
   @Inject(IEstablishmentRepository)
   private readonly establishmentRepo: IEstablishmentRepository;
-  @Inject(IAppointmentRepository)
-  private readonly appointmentRepo: IAppointmentRepository;
+  @Inject(IProfessionalAppointmentRepository)
+  private readonly appointmentRepo: IProfessionalAppointmentRepository;
 
-  async execute(data: ListProfessionalMonthAppointmentDaysInptu) {
+  async execute(data: ListProfessionalMonthAppointmentDaysInput) {
     const professional = await this.professionalRepo.findById(
       data.professionalId,
     );
@@ -50,7 +50,7 @@ export class ListProfessionalMonthAppointmentDays {
     const startDate = startOfMonth(parseISO(`${data.month}-01`));
     const endDate = lastDayOfMonth(startDate);
 
-    return await this.appointmentRepo.getProfessionalAppointmentInRange({
+    return await this.appointmentRepo.getAppointmentInRange({
       professionalId: professional.id,
       establishmentId: data.establishmentId,
       startDate,

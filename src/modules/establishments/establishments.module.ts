@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ProfessionalEstablishmentController } from './api/controllers/establishment/establishment.controller';
 import { IEstablishmentRepository } from './application/repositories/establishment.repository';
 import { EstablishmentPgRepository } from './data/repositories/mikro-orm/establishment.pg.repository';
@@ -13,9 +13,16 @@ import { UpdateEstablishmentSchedule } from './application/usecases/update-estab
 import { ScheduleModule } from '@/schedules/schedule.module';
 import { IEstablishmentProfessionalRepository } from './application/repositories/establishment-professional.repository';
 import { EstablishmentProfessionaPgRepository } from './data/repositories/mikro-orm/establishment-professional.pg.repository';
+import { AppointmentModule } from '@/appointments/appointment.module';
 
 @Module({
-  imports: [AuthModule, ProfessionalModule, AddressesModule, ScheduleModule],
+  imports: [
+    AuthModule,
+    ProfessionalModule,
+    AddressesModule,
+    ScheduleModule,
+    forwardRef(() => AppointmentModule),
+  ],
   providers: [
     CreateEstablishment,
     ListEstablishments,

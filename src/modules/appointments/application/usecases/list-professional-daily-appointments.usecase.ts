@@ -1,7 +1,7 @@
 import { ForbiddenException, Inject, NotFoundException } from '@nestjs/common';
-import { IAppointmentRepository } from '../repositories/appointment.repository';
 import { IProfessionalRepository } from '@/professionals/application/repositories/professional.repository';
 import { IEstablishmentRepository } from '@/establishments/application/repositories/establishment.repository';
+import { IProfessionalAppointmentRepository } from '../repositories/professional-appointments.repository';
 
 export type ListProfessionalDailyAppointmentsInput = {
   professionalId: string;
@@ -14,8 +14,8 @@ export class ListProfessionalDailyAppointments {
   private readonly professionalRepo: IProfessionalRepository;
   @Inject(IEstablishmentRepository)
   private readonly establishmentRepo: IEstablishmentRepository;
-  @Inject(IAppointmentRepository)
-  private readonly appointmentRepo: IAppointmentRepository;
+  @Inject(IProfessionalAppointmentRepository)
+  private readonly appointmentRepo: IProfessionalAppointmentRepository;
 
   async execute(data: ListProfessionalDailyAppointmentsInput) {
     const professional = await this.professionalRepo.findById(
@@ -46,7 +46,7 @@ export class ListProfessionalDailyAppointments {
       }
     }
 
-    return await this.appointmentRepo.getProfessionalDailyAppointment({
+    return await this.appointmentRepo.getDailyAppointment({
       professionalId: professional.id,
       establishmentId: data.establishmentId,
       date: new Date(data.date),
