@@ -2,7 +2,7 @@ import { ForbiddenException, Inject, NotFoundException } from '@nestjs/common';
 import { IAppointmentRepository } from '../repositories/appointment.repository';
 import { lastDayOfMonth, parseISO, startOfMonth } from 'date-fns';
 import { IProfessionalRepository } from '@/professionals/application/repositories/professional.repository';
-import { IEstablishmentProfessionalRepository } from '@/establishments/application/repositories/establishment-professional.repository';
+import { IEstablishmentRepository } from '@/establishments/application/repositories/establishment.repository';
 
 export type ListProfessionalMonthAppointmentDaysInptu = {
   professionalId: string;
@@ -13,8 +13,8 @@ export type ListProfessionalMonthAppointmentDaysInptu = {
 export class ListProfessionalMonthAppointmentDays {
   @Inject(IProfessionalRepository)
   private readonly professionalRepo: IProfessionalRepository;
-  @Inject(IEstablishmentProfessionalRepository)
-  private readonly establishmentProfessionalRepo: IEstablishmentProfessionalRepository;
+  @Inject(IEstablishmentRepository)
+  private readonly establishmentRepo: IEstablishmentRepository;
   @Inject(IAppointmentRepository)
   private readonly appointmentRepo: IAppointmentRepository;
 
@@ -28,13 +28,21 @@ export class ListProfessionalMonthAppointmentDays {
     }
 
     if (data.establishmentId) {
-      const hasProfessionalEstablishment =
-        await this.establishmentProfessionalRepo.exists({
-          establishmentId: data.establishmentId,
-          professionalId: professional.id,
-        });
+      const establishment = await this.establishmentRepo.findById(
+        data.establishmentId,
+      );
 
-      if (!hasProfessionalEstablishment) {
+      if (!establishment) {
+        throw new NotFoundException('Establishment not found');
+      }
+
+      const isOwner = establishment.owner.id === professional.id;
+
+      const isCollaborator = establishment.professionals
+        .getItems()
+        .some((ep) => ep.professional.id === professional.id);
+
+      if (!isOwner && !isCollaborator) {
         throw new ForbiddenException('You do not belong to this establishment');
       }
     }

@@ -31,7 +31,7 @@ import { EstablishmentProfessionaPgRepository } from './data/repositories/mikro-
       useClass: EstablishmentProfessionaPgRepository,
     },
   ],
-  exports: [IEstablishmentProfessionalRepository],
+  exports: [IEstablishmentRepository, IEstablishmentProfessionalRepository],
   controllers: [ProfessionalEstablishmentController],
 })
 export class EstablishmentsModule {}
