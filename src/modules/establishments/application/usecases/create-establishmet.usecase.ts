@@ -1,7 +1,7 @@
 import { ConflictException, Inject, NotFoundException } from '@nestjs/common';
 import { IEstablishmentRepository } from '../repositories/establishment.repository';
-import { AddressBuilder } from '@/addresses/domain/factories/address.factory';
-import { EstablishmentBuilder } from '@/establishments/domain/factories/establishment.factory';
+import { AddressBuilder } from '@/addresses/domain/builders/address.builder';
+import { EstablishmentBuilder } from '@/establishments/domain/builders/establishment.builder';
 import { IProfessionalRepository } from '@/professionals/application/repositories/professional.repository';
 import { Establishment } from '@/establishments/domain/entities/establishment.entity';
 
