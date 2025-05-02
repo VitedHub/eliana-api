@@ -14,6 +14,7 @@ import { EstablishmentsModule } from '@/establishments/establishments.module';
 import { ListProfessionalMonthAppointmentDays } from './application/usecases/list-professional-month-appointment-days.usecase';
 import { ProfessionalModule } from '@/professionals/professionals.module';
 import { ProfessionalAppointmentsController } from './api/controllers/professional-appointments.controller';
+import { ListProfessionalDailyAppointments } from './application/usecases/list-professional-daily-appointments.usecase';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ProfessionalAppointmentsController } from './api/controllers/profession
     ListClientAppointments,
     BookAppointment,
     ListProfessionalMonthAppointmentDays,
+    ListProfessionalDailyAppointments,
   ],
   controllers: [
     ClientAppointmentController,

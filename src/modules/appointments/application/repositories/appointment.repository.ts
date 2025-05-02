@@ -8,8 +8,11 @@ export abstract class IAppointmentRepository {
   abstract listClientAppointments(data: {
     clientId: string;
   }): Promise<Appointment[]>;
-  abstract listProfessionalAppointmentInRange(
-    data: ListProfessionalAppointmentsInRangeInput,
+  abstract getProfessionalDailyAppointment(
+    data: GetProfessionalDailyAppointmentIput,
+  ): Promise<Appointment[]>;
+  abstract getProfessionalAppointmentInRange(
+    data: GetProfessionalAppointmentsInRangeInput,
   ): Promise<Appointment[]>;
   abstract getBookedDates(data: {
     startDate: Date;
@@ -25,9 +28,15 @@ export interface BookAppointmentInput {
   status: APPOINTMENT_STATUS;
 }
 
-export interface ListProfessionalAppointmentsInRangeInput {
+export interface GetProfessionalAppointmentsInRangeInput {
   professionalId: string;
   establishmentId?: string;
   startDate: Date;
   endDate: Date;
+}
+
+export interface GetProfessionalDailyAppointmentIput {
+  professionalId: string;
+  date: Date;
+  establishmentId: string;
 }
