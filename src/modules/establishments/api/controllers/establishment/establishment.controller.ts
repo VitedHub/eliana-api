@@ -25,6 +25,8 @@ import { UpdateEstablishmentSchedule } from '@/establishments/application/usecas
 import { UpdateEstablishmentSchedulePresenter } from './presenter/update-establishment-schedule.presenter';
 import { ListEstablishmentMonthAppointments } from '@/appointments/application/usecases/list-establishment-month-appointments.usecase';
 import { ListEstablishmentMonthAppointmentPresenter } from './presenter/list-establishment-month-appointments.presenter';
+import { ListEstablishmentlDailyAppointments } from '@/appointments/application/usecases/list-establishment-daily-appointments.usecase';
+import { ListEstablishmentDailyAppointmentsPresenter } from './presenter/list-establishment-daily-appointments.presenter';
 
 @UseGuards(ProfessionalAuthGuard)
 @Controller('establishments')
@@ -41,6 +43,8 @@ export class ProfessionalEstablishmentController {
   private readonly updateEstablishmentScheduleUseCase: UpdateEstablishmentSchedule;
   @Inject(ListEstablishmentMonthAppointments)
   private readonly listMonthAppointmentDaysUseCase: ListEstablishmentMonthAppointments;
+  @Inject(ListEstablishmentlDailyAppointments)
+  private readonly listDailyAppointmentsUseCase: ListEstablishmentlDailyAppointments;
 
   @Post()
   async createEstablishment(
@@ -105,6 +109,23 @@ export class ProfessionalEstablishmentController {
     });
 
     return ListEstablishmentMonthAppointmentPresenter.toHTTP(result);
+  }
+
+  @Get(':id/appointments')
+  async listDailyAppointments(
+    @User() professional: Professional,
+    @Param('id') id: string,
+    @Query('date') date: string,
+    @Query('professionalId') professionalId?: string,
+  ) {
+    const result = await this.listDailyAppointmentsUseCase.execute({
+      requesterId: professional.id,
+      establishmentId: id,
+      date,
+      professionalId,
+    });
+
+    return result.map(ListEstablishmentDailyAppointmentsPresenter.toHTTP);
   }
 
   @Patch(':id/schedules/:scheduleId')

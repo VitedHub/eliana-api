@@ -20,6 +20,7 @@ import { IProfessionalAppointmentRepository } from './application/repositories/p
 import { ProfessionalAppointmentPgRepository } from './data/repositories/mikro-orm/professional-appointments.pg.repository';
 import { EstablishmentAppointmentPgRepository } from './data/repositories/mikro-orm/establishment-appointments.repository';
 import { IEstablishmentAppointmentRepository } from './application/repositories/establishment-appointments.repository';
+import { ListEstablishmentlDailyAppointments } from './application/usecases/list-establishment-daily-appointments.usecase';
 
 @Module({
   imports: [
@@ -49,8 +50,12 @@ import { IEstablishmentAppointmentRepository } from './application/repositories/
     ListProfessionalMonthAppointmentDays,
     ListProfessionalDailyAppointments,
     ListEstablishmentMonthAppointments,
+    ListEstablishmentlDailyAppointments,
   ],
-  exports: [ListEstablishmentMonthAppointments],
+  exports: [
+    ListEstablishmentMonthAppointments,
+    ListEstablishmentlDailyAppointments,
+  ],
   controllers: [
     ClientAppointmentController,
     AppointmentsController,
