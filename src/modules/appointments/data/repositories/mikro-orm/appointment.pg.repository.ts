@@ -1,6 +1,7 @@
 import {
   BookAppointmentInput,
   IAppointmentRepository,
+  ListProfessionalAppointmentsInRangeInput,
 } from '@/appointments/application/repositories/appointment.repository';
 import { Appointment } from '@/appointments/domain/entities/appointment.entity';
 import { APPOINTMENT_STATUS } from '@/appointments/domain/enums/appointment-status.enum';
@@ -50,6 +51,22 @@ export class AppointmentPgRepository implements IAppointmentRepository {
         client: data.clientId,
       },
       populate: ['timeSlot', 'timeSlot.schedule'],
+    });
+  }
+
+  async listProfessionalAppointmentInRange(
+    data: ListProfessionalAppointmentsInRangeInput,
+  ): Promise<Appointment[]> {
+    return await this.entityManager.findAll(Appointment, {
+      where: {
+        professional: data.professionalId,
+        date: {
+          $gte: data.startDate,
+          $lte: data.endDate,
+        },
+        ...(data.establishmentId && { establishment: data.establishmentId }),
+      },
+      populate: ['timeSlot'],
     });
   }
 

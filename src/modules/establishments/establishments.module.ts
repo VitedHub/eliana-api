@@ -11,6 +11,8 @@ import { DetailEstablishment } from './application/usecases/detail-establishment
 import { ListEstablishmentProfessionals } from './application/usecases/list-establishment-professionals.usecase';
 import { UpdateEstablishmentSchedule } from './application/usecases/update-establishment-schedule.usecase';
 import { ScheduleModule } from '@/schedules/schedule.module';
+import { IEstablishmentProfessionalRepository } from './application/repositories/establishment-professional.repository';
+import { EstablishmentProfessionaPgRepository } from './data/repositories/mikro-orm/establishment-professional.pg.repository';
 
 @Module({
   imports: [AuthModule, ProfessionalModule, AddressesModule, ScheduleModule],
@@ -24,7 +26,12 @@ import { ScheduleModule } from '@/schedules/schedule.module';
       provide: IEstablishmentRepository,
       useClass: EstablishmentPgRepository,
     },
+    {
+      provide: IEstablishmentProfessionalRepository,
+      useClass: EstablishmentProfessionaPgRepository,
+    },
   ],
+  exports: [IEstablishmentProfessionalRepository],
   controllers: [ProfessionalEstablishmentController],
 })
 export class EstablishmentsModule {}
