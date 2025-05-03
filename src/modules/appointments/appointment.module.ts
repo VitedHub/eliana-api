@@ -8,7 +8,6 @@ import { GetAvailableDayTimeSlots } from './application/usecases/get-available-d
 import { ListClientAppointments } from './application/usecases/list-client-appointmnets.usecase';
 import { BookAppointment } from './application/usecases/book-appointment.usecase';
 import { ClientsModule } from '@/clients/clients.module';
-import { AppointmentsController } from './api/controllers/appointments.controller';
 import { AuthModule } from '@/auth/auth.module';
 import { EstablishmentsModule } from '@/establishments/establishments.module';
 import { ListProfessionalMonthAppointmentDays } from './application/usecases/list-professional-month-appointment-days.usecase';
@@ -58,7 +57,6 @@ import { ListEstablishmentlDailyAppointments } from './application/usecases/list
   ],
   controllers: [
     ClientAppointmentController,
-    AppointmentsController,
     ProfessionalAppointmentsController,
   ],
 })

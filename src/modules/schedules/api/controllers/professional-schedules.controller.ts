@@ -10,17 +10,17 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateTimeSlotRequest } from './requests/create-time-slot.request';
-import { CreateTimeSlot } from '@/schedules/application/usecases/create-time-slot.usecase';
-import { CreateTimeSlotPresenter } from './presenters/create-time-slot.presenter';
+import { CreateProfessionalTimeSlot } from '@/schedules/application/usecases/create-time-slot.usecase';
+import { CreateProfesionalTimeSlotPresenter } from './presenters/create-time-slot.presenter';
 
 @UseGuards(ProfessionalAuthGuard)
 @Controller('schedules')
-export class ScheduleController {
-  @Inject(CreateTimeSlot)
-  private createTimeSlotUseCase: CreateTimeSlot;
+export class ProfessionalScheduleController {
+  @Inject(CreateProfessionalTimeSlot)
+  private createTimeSlotUseCase: CreateProfessionalTimeSlot;
 
   @Post(':scheduleId/time-slots')
-  async createTimeSlot(
+  async createProfessionalTimeSlot(
     @User() requester: Professional,
     @Param('scheduleId') scheduleId: string,
     @Body() body: CreateTimeSlotRequest,
@@ -31,6 +31,6 @@ export class ScheduleController {
       requesterId: requester.id,
     });
 
-    return CreateTimeSlotPresenter.toHTTP();
+    return CreateProfesionalTimeSlotPresenter.toHTTP();
   }
 }

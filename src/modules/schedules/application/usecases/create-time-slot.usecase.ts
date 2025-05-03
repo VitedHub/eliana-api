@@ -10,7 +10,7 @@ import { IScheduleRepository } from '../repositories/schedule.repository';
 import { ITimeSlotRepository } from '../repositories/time-slot.repository';
 import { TimeSlotBuilder } from '@/schedules/domain/builders/time-slot.builder';
 
-export type CreateTimeSlotInput = {
+export type CreateProfessionalTimeSlotInput = {
   requesterId: string;
   professionalId: string;
   scheduleId: string;
@@ -18,7 +18,7 @@ export type CreateTimeSlotInput = {
   endTime: string;
 };
 
-export class CreateTimeSlot {
+export class CreateProfessionalTimeSlot {
   @Inject(IProfessionalRepository)
   private professionalRepo: IProfessionalRepository;
   @Inject(IScheduleRepository)
@@ -26,7 +26,7 @@ export class CreateTimeSlot {
   @Inject(ITimeSlotRepository)
   private timeSlotRepo: ITimeSlotRepository;
 
-  async execute(data: CreateTimeSlotInput) {
+  async execute(data: CreateProfessionalTimeSlotInput) {
     const requester = await this.professionalRepo.findById(data.requesterId);
 
     if (!requester) {

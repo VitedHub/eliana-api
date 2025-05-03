@@ -3,18 +3,18 @@ import { IScheduleExceptionRepository } from './application/repositories/schedul
 import { ScheduleExceptionPgRepository } from './data/repositories/mikro-orm/schedule-exception.pg.repository';
 import { IScheduleRepository } from './application/repositories/schedule.repository';
 import { SchedulePgRepository } from './data/repositories/mikro-orm/schedule.pg.repository';
-import { ScheduleController } from './api/controllers/schedules.controller';
+import { ProfessionalScheduleController } from './api/controllers/professional-schedules.controller';
 import { AuthModule } from '@/auth/auth.module';
 import { ProfessionalModule } from '@/professionals/professionals.module';
-import { CreateTimeSlot } from './application/usecases/create-time-slot.usecase';
+import { CreateProfessionalTimeSlot } from './application/usecases/create-time-slot.usecase';
 import { ITimeSlotRepository } from './application/repositories/time-slot.repository';
 import { TimeSlotPgRepository } from './data/repositories/mikro-orm/time-slot.pg.repository';
 
 @Module({
-  controllers: [ScheduleController],
+  controllers: [ProfessionalScheduleController],
   imports: [AuthModule, ProfessionalModule],
   providers: [
-    CreateTimeSlot,
+    CreateProfessionalTimeSlot,
     {
       provide: IScheduleExceptionRepository,
       useClass: ScheduleExceptionPgRepository,
