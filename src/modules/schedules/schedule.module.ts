@@ -14,6 +14,7 @@ import { ListAvailableDaysForClient } from './application/usecases/list-availabl
 import { EstablishmentsModule } from '@/establishments/establishments.module';
 import { AppointmentModule } from '@/appointments/appointment.module';
 import { ClientsModule } from '@/clients/clients.module';
+import { ListAvailableTimeSlotsForClient } from './application/usecases/list-available-time-slots-for-client.usecase';
 
 @Module({
   controllers: [
@@ -30,6 +31,7 @@ import { ClientsModule } from '@/clients/clients.module';
   providers: [
     CreateProfessionalTimeSlot,
     ListAvailableDaysForClient,
+    ListAvailableTimeSlotsForClient,
     {
       provide: IScheduleExceptionRepository,
       useClass: ScheduleExceptionPgRepository,
