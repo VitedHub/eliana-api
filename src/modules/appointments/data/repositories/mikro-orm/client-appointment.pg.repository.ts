@@ -1,5 +1,6 @@
 import {
   BookAppointmentInput,
+  GetBookedDatesInput,
   IClientAppointmentRepository,
 } from '@/appointments/application/repositories/client-appointment.repository';
 import { Appointment } from '@/appointments/domain/entities/appointment.entity';
@@ -55,16 +56,14 @@ export class ClientAppointmentPgRepository
     });
   }
 
-  async getBookedDates(data: {
-    startDate: Date;
-    endDate: Date;
-  }): Promise<Pick<Appointment, 'date' | 'timeSlot'>[]> {
+  async getBookedDates(data: GetBookedDatesInput): Promise<Appointment[]> {
     return await this.entityManager.findAll(Appointment, {
       where: {
         date: { $gte: data.startDate, $lte: data.endDate },
         status: APPOINTMENT_STATUS.SCHEDULED,
+        establishment: data.establishmentId,
+        professional: data.professionalId,
       },
-      fields: ['date', 'timeSlot'],
     });
   }
 }

@@ -20,7 +20,7 @@ import { AppointmentModule } from '@/appointments/appointment.module';
     AuthModule,
     ProfessionalModule,
     AddressesModule,
-    ScheduleModule,
+    forwardRef(() => ScheduleModule),
     forwardRef(() => AppointmentModule),
   ],
   providers: [

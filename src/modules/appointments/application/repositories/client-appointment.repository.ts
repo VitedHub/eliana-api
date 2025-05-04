@@ -10,10 +10,7 @@ export abstract class IClientAppointmentRepository {
     clientId: string;
   }): Promise<Appointment[]>;
 
-  abstract getBookedDates(data: {
-    startDate: Date;
-    endDate: Date;
-  }): Promise<Pick<Appointment, 'date' | 'timeSlot'>[]>;
+  abstract getBookedDates(data: GetBookedDatesInput): Promise<Appointment[]>;
 }
 
 export interface BookAppointmentInput {
@@ -24,15 +21,9 @@ export interface BookAppointmentInput {
   status: APPOINTMENT_STATUS;
 }
 
-export interface GetProfessionalAppointmentsInRangeInput {
-  professionalId: string;
-  establishmentId?: string;
+export interface GetBookedDatesInput {
   startDate: Date;
   endDate: Date;
-}
-
-export interface GetProfessionalDailyAppointmentIput {
-  professionalId: string;
-  date: Date;
   establishmentId: string;
+  professionalId: string;
 }

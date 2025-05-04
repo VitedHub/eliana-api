@@ -1,5 +1,5 @@
 import { ScheduleModule } from '@/schedules/schedule.module';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ClientAppointmentController } from './api/controllers/client-appointment.controller';
 import { GetAvailableDays } from './application/usecases/get-available-month-days.usecase';
 import { IClientAppointmentRepository } from './application/repositories/client-appointment.repository';
@@ -24,9 +24,9 @@ import { ListEstablishmentlDailyAppointments } from './application/usecases/list
 @Module({
   imports: [
     AuthModule,
-    ScheduleModule,
+    forwardRef(() => ScheduleModule),
     ClientsModule,
-    EstablishmentsModule,
+    forwardRef(() => EstablishmentsModule),
     ProfessionalModule,
   ],
   providers: [
@@ -52,6 +52,7 @@ import { ListEstablishmentlDailyAppointments } from './application/usecases/list
     ListEstablishmentlDailyAppointments,
   ],
   exports: [
+    IClientAppointmentRepository,
     ListEstablishmentMonthAppointments,
     ListEstablishmentlDailyAppointments,
   ],

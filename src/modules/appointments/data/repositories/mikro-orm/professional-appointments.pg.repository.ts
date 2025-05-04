@@ -1,7 +1,7 @@
 import {
   GetProfessionalAppointmentsInRangeInput,
   GetProfessionalDailyAppointmentIput,
-} from '@/appointments/application/repositories/client-appointment.repository';
+} from '@/appointments/application/repositories/professional-appointments.repository';
 import { IProfessionalAppointmentRepository } from '@/appointments/application/repositories/professional-appointments.repository';
 import { Appointment } from '@/appointments/domain/entities/appointment.entity';
 import { EntityManager } from '@mikro-orm/postgresql';

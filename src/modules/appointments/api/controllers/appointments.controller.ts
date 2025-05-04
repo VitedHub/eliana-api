@@ -10,11 +10,21 @@ export class AppointmentsController {
   private getAvailableDayTimeSlotsUseCase: GetAvailableDayTimeSlots;
 
   @Get('available')
+  /**
+   *
+   * @deprecated
+   *
+   */
   async getAvailableDays(@Query('month') month: string) {
     return this.getAvailableDaysUseCase.execute({ month });
   }
 
   @Get('available-slots')
+  /**
+   *
+   * @deprecated
+   *
+   */
   async GetAvailableDayTimeSlots(@Query('date') date: Date) {
     return this.getAvailableDayTimeSlotsUseCase.execute({ date });
   }

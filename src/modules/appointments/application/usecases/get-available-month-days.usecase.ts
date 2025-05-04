@@ -25,22 +25,31 @@ export class GetAvailableDays {
   @Inject(IClientAppointmentRepository)
   private appointmentRepo: IClientAppointmentRepository;
 
+  /**
+   *
+   * @deprecated
+   *
+   */
   async execute(data: GetAvailableDaysInput) {
     const startMonthDate = startOfMonth(parseISO(`${data.month}-01`));
     const endMonthDate = lastDayOfMonth(startMonthDate);
     const today = new Date();
 
-    const schedules = await this.scheduleRepo.getAvailableWeekDays();
+    const schedules = await this.scheduleRepo.getAvailableDays('');
 
     const appointments = await this.appointmentRepo.getBookedDates({
       startDate: startMonthDate,
       endDate: endMonthDate,
+      establishmentId: '',
+      professionalId: '',
     });
 
     const scheduleExceptions = await this.ScheduleExceptionRepo.getBlockedDates(
       {
         startDate: startMonthDate,
         endDate: endMonthDate,
+        establishmentId: '',
+        professionalId: '',
       },
     );
 

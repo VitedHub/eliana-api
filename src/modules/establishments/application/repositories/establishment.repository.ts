@@ -5,5 +5,6 @@ export abstract class IEstablishmentRepository {
   abstract findByOwner(ownerId: string): Promise<Establishment[]>;
   abstract findById(id: string): Promise<Establishment | null>;
   abstract findByEmail(email: string): Promise<Establishment | null>;
+  abstract findByPublicURL(slug: string): Promise<Establishment | null>;
   abstract findByCnpj(cnpj: string): Promise<Establishment | null>;
 }

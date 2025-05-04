@@ -18,6 +18,11 @@ export class GetAvailableDayTimeSlots {
   @Inject(IClientAppointmentRepository)
   private appointmentRepo: IClientAppointmentRepository;
 
+  /**
+   *
+   * @deprecated
+   *
+   */
   async execute(data: GetAvailableDayTimeSlotsInput) {
     const availableTimeSlot: TimeSlot[] = [];
     const day = parseISO(data.date as unknown as string);
@@ -25,7 +30,7 @@ export class GetAvailableDayTimeSlots {
 
     const normalizeDate = (date: Date) => date.toISOString().split('T')[0];
 
-    const schedules = await this.scheduleRepo.getAvailableWeekDays();
+    const schedules = await this.scheduleRepo.getAvailableDays('');
 
     const daySchedules = schedules.filter(
       (schedule) => schedule.dayOfWeek === weekDayString,
@@ -36,12 +41,16 @@ export class GetAvailableDayTimeSlots {
     const appointments = await this.appointmentRepo.getBookedDates({
       startDate: day,
       endDate: day,
+      establishmentId: '',
+      professionalId: '',
     });
 
     const scheduleExceptions = await this.ScheduleExceptionRepo.getBlockedDates(
       {
         startDate: day,
         endDate: day,
+        establishmentId: '',
+        professionalId: '',
       },
     );
 

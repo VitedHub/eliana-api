@@ -17,17 +17,15 @@ export class SchedulePgRepository implements IScheduleRepository {
     );
   }
 
-  async getAvailableWeekDays(): Promise<
-    Pick<Schedule, 'id' | 'dayOfWeek' | 'timeSlot'>[]
-  > {
+  async getAvailableDays(establishmentId: string): Promise<Schedule[]> {
     return await this.entityManager.find(
       Schedule,
       {
+        establishment: establishmentId,
         isActive: true,
       },
       {
         populate: ['timeSlot'],
-        fields: ['id', 'dayOfWeek'],
       },
     );
   }
