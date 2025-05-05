@@ -12,7 +12,7 @@ import {
 import { ListAvailableTimeSlotsForClientPresenter } from './presenters/list-available-time-slots-for-client.presenter';
 
 @UseGuards(ClientAuthGuard)
-@Controller('establishment-schedules')
+@Controller('establishment/schedules')
 export class EstablishmentSchedulesController {
   @Inject(ListAvailableDaysForClient)
   private readonly listAvailableDaysUseCase: ListAvailableDaysForClient;
