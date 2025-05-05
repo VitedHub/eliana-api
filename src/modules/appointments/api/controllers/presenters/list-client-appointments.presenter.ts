@@ -13,6 +13,14 @@ export class ListClientAppointmentsPresenter {
         startTime: data.timeSlot.startTime,
         endTime: data.timeSlot.endTime,
       },
+      establishment: {
+        id: data.establishment.id,
+        name: data.establishment.name,
+      },
+      professional: {
+        id: data.professional.id,
+        name: data.professional.name,
+      },
     };
   }
 }

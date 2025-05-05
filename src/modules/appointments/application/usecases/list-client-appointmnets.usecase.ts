@@ -3,6 +3,8 @@ import { IClientAppointmentRepository } from '../repositories/client-appointment
 
 export type ListClientAppointmentsInput = {
   clientId: string;
+  establishmentId?: string;
+  professionalId?: string;
 };
 
 export class ListClientAppointments {
@@ -12,6 +14,8 @@ export class ListClientAppointments {
   async execute(data: ListClientAppointmentsInput) {
     return await this.appotintmentRepo.listClientAppointments({
       clientId: data.clientId,
+      establishmentId: data.establishmentId,
+      professionalId: data.professionalId,
     });
   }
 }

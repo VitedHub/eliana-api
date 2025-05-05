@@ -1,6 +1,7 @@
 import {
   GetBookedDatesInput,
   IClientAppointmentRepository,
+  ListClientAppointmentsInput,
 } from '@/appointments/application/repositories/client-appointment.repository';
 import { Appointment } from '@/appointments/domain/entities/appointment.entity';
 import { APPOINTMENT_STATUS } from '@/appointments/domain/enums/appointment-status.enum';
@@ -41,14 +42,21 @@ export class ClientAppointmentPgRepository
     });
   }
 
-  async listClientAppointments(data: {
-    clientId: string;
-  }): Promise<Appointment[]> {
+  async listClientAppointments(
+    data: ListClientAppointmentsInput,
+  ): Promise<Appointment[]> {
     return await this.entityManager.findAll(Appointment, {
       where: {
         client: data.clientId,
+        ...(data.establishmentId && { establishment: data.establishmentId }),
+        ...(data.professionalId && { professional: data.professionalId }),
       },
-      populate: ['timeSlot', 'timeSlot.schedule'],
+      populate: [
+        'timeSlot',
+        'timeSlot.schedule',
+        'professional',
+        'establishment',
+      ],
     });
   }
 

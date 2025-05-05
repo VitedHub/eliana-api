@@ -4,8 +4,8 @@ import {
   Controller,
   Get,
   Inject,
-  Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ListClientAppointmentsPresenter } from './presenters/list-client-appointments.presenter';
@@ -37,9 +37,17 @@ export class ClientAppointmentController {
     return BookAppointmentPresenter.toHTTP(result);
   }
 
-  @Get(':clientId')
-  async listAppointments(@Param('clientId') clientId: string) {
-    const result = await this.listAppointmentsUseCase.execute({ clientId });
+  @Get()
+  async listAppointments(
+    @User() client: Client,
+    @Query('establishmentId') establishmentId?: string,
+    @Query('professionalId') professionalId?: string,
+  ) {
+    const result = await this.listAppointmentsUseCase.execute({
+      clientId: client.id,
+      establishmentId,
+      professionalId,
+    });
 
     return result.map(ListClientAppointmentsPresenter.toHTTP);
   }
