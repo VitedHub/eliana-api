@@ -1,10 +1,8 @@
 import { ScheduleModule } from '@/schedules/schedule.module';
 import { forwardRef, Module } from '@nestjs/common';
 import { ClientAppointmentController } from './api/controllers/client-appointment.controller';
-import { GetAvailableDays } from './application/usecases/get-available-month-days.usecase';
 import { IClientAppointmentRepository } from './application/repositories/client-appointment.repository';
 import { ClientAppointmentPgRepository } from './data/repositories/mikro-orm/client-appointment.pg.repository';
-import { GetAvailableDayTimeSlots } from './application/usecases/get-available-day-time-slots.usecase';
 import { ListClientAppointments } from './application/usecases/list-client-appointmnets.usecase';
 import { BookAppointment } from './application/usecases/book-appointment.usecase';
 import { ClientsModule } from '@/clients/clients.module';
@@ -42,8 +40,6 @@ import { ListEstablishmentlDailyAppointments } from './application/usecases/list
       provide: IEstablishmentAppointmentRepository,
       useClass: EstablishmentAppointmentPgRepository,
     },
-    GetAvailableDays,
-    GetAvailableDayTimeSlots,
     ListClientAppointments,
     BookAppointment,
     ListProfessionalMonthAppointmentDays,
