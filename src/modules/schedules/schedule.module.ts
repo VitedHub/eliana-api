@@ -45,6 +45,10 @@ import { ListAvailableTimeSlotsForClient } from './application/usecases/list-ava
       useClass: TimeSlotPgRepository,
     },
   ],
-  exports: [IScheduleRepository, IScheduleExceptionRepository],
+  exports: [
+    IScheduleRepository,
+    IScheduleExceptionRepository,
+    ListAvailableTimeSlotsForClient,
+  ],
 })
 export class ScheduleModule {}

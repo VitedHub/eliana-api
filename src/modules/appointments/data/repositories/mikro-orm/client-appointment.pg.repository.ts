@@ -1,5 +1,4 @@
 import {
-  BookAppointmentInput,
   GetBookedDatesInput,
   IClientAppointmentRepository,
 } from '@/appointments/application/repositories/client-appointment.repository';
@@ -14,7 +13,7 @@ export class ClientAppointmentPgRepository
   @Inject(EntityManager)
   private readonly entityManager: EntityManager;
 
-  async bookAppointment(data: BookAppointmentInput): Promise<Appointment> {
+  async bookAppointment(data: Appointment): Promise<Appointment> {
     return this.entityManager.transactional(async (tx) => {
       const existingAppointment = await tx.findOne(
         Appointment,
@@ -33,11 +32,8 @@ export class ClientAppointmentPgRepository
       }
 
       const appointment = tx.create(Appointment, {
-        id: data.appointmentId,
-        date: data.date,
-        timeSlot: data.timeSlot,
-        client: data.client,
-        status: data.status,
+        ...data,
+        status: APPOINTMENT_STATUS.SCHEDULED,
       });
 
       await tx.persistAndFlush(appointment);

@@ -1,15 +1,18 @@
 import { Inject, NotFoundException } from '@nestjs/common';
 import { IClientAppointmentRepository } from '../repositories/client-appointment.repository';
-import { IClientRepository } from '@/clients/application/repositories/client.repository';
-import { GetAvailableDayTimeSlots } from './get-available-day-time-slots.usecase';
-import { APPOINTMENT_STATUS } from '@/appointments/domain/enums/appointment-status.enum';
-import { randomUUID } from 'crypto';
 import { Appointment } from '@/appointments/domain/entities/appointment.entity';
+import { IEstablishmentRepository } from '@/establishments/application/repositories/establishment.repository';
+import { ListAvailableTimeSlotsForClient } from '@/schedules/application/usecases/list-available-time-slots-for-client.usecase';
+import { IProfessionalRepository } from '@/professionals/application/repositories/professional.repository';
+import { AppointmentBuilder } from '@/appointments/domain/builders/appointment.builder';
+import { IClientRepository } from '@/clients/application/repositories/client.repository';
 
 export type BookAppointmentInput = {
   clientId: string;
   timeSlotId: string;
-  date: Date;
+  date: string;
+  establishmentSlug: string;
+  professionalId: string;
 };
 
 export type BookAppointmentOutput = Appointment;
@@ -17,34 +20,71 @@ export type BookAppointmentOutput = Appointment;
 export class BookAppointment {
   @Inject(IClientRepository)
   private clientRepo: IClientRepository;
-  @Inject(GetAvailableDayTimeSlots)
-  private getAvailableDayTimeSlots: GetAvailableDayTimeSlots;
+  @Inject(IEstablishmentRepository)
+  private establishmentRepo: IEstablishmentRepository;
+  @Inject(IProfessionalRepository)
+  protected profesionalRepo: IProfessionalRepository;
+  @Inject(ListAvailableTimeSlotsForClient)
+  private getAvailableDayTimeSlots: ListAvailableTimeSlotsForClient;
   @Inject(IClientAppointmentRepository)
   private appointmentRepo: IClientAppointmentRepository;
 
   async execute(data: BookAppointmentInput): Promise<BookAppointmentOutput> {
     const client = await this.clientRepo.findById(data.clientId);
+    if (!client) {
+      throw new NotFoundException('Client not found');
+    }
 
-    if (!client) throw new NotFoundException('Client not found');
+    const establishment = await this.establishmentRepo.findByPublicURL(
+      data.establishmentSlug,
+    );
 
-    const dayTimeSlot = await this.getAvailableDayTimeSlots.execute({
+    if (!establishment) {
+      throw new NotFoundException('Establishment not found');
+    }
+
+    const professional = await this.profesionalRepo.findById(
+      data.professionalId,
+    );
+
+    if (!professional) {
+      throw new NotFoundException('Professional not found');
+    }
+
+    const isOwner = establishment.owner.id === professional.id;
+
+    const isCollaborator = establishment.professionals
+      .getItems()
+      .some((ep) => ep.professional.id === professional.id);
+
+    if (!isOwner && !isCollaborator) {
+      throw new NotFoundException(
+        'Profesisonal not belong to this establishment',
+      );
+    }
+
+    const availableTimeSlots = await this.getAvailableDayTimeSlots.execute({
       date: data.date,
+      professionalId: professional.id,
+      slug: establishment.publicUrl,
     });
 
-    const timeSlot = dayTimeSlot.filter((timeSlot) => {
-      return timeSlot.id === data.timeSlotId;
-    })[0];
+    const selectedTimeSlots = availableTimeSlots.find(
+      (slot) => slot.id === data.timeSlotId,
+    );
 
-    if (!timeSlot) {
+    if (!selectedTimeSlots) {
       throw new NotFoundException('Time slot not found or not available');
     }
 
-    return await this.appointmentRepo.bookAppointment({
-      appointmentId: randomUUID(),
+    const appointment = AppointmentBuilder.create({
+      establishment,
+      professional,
       client,
       date: data.date,
-      timeSlot: timeSlot,
-      status: APPOINTMENT_STATUS.SCHEDULED,
+      timeSlot: selectedTimeSlots,
     });
+
+    return this.appointmentRepo.bookAppointment(appointment);
   }
 }
