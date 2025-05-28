@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { GoogleAuthProvider } from './infra/providers/google-auth.provider';
 import { ClientOAuthLogInUseCase } from './application/usecases/client-oAuth-login.usecase';
 import { ClientAuthController } from './api/controllers/clients-auth/client-auth.controller';
@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProfessionalOAuthLogInUseCase } from './application/usecases/professional-oAuth-login.usecase';
 import { ProfessionalAuthController } from './api/controllers/professionals-auth/professional-auth.controller';
 import { ProfessionalModule } from '@/professionals/professionals.module';
+import { SubscriptionModule } from '@/subscriptions/subscription.module';
 
 @Module({
   controllers: [ClientAuthController, ProfessionalAuthController],
@@ -17,6 +18,7 @@ import { ProfessionalModule } from '@/professionals/professionals.module';
     CoreModule,
     ClientsModule,
     ProfessionalModule,
+    forwardRef(() => SubscriptionModule),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

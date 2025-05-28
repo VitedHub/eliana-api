@@ -11,11 +11,12 @@ import { Schedule } from '@/schedules/domain/entities/schedule.entity';
 import { TimeSlot } from '@/schedules/domain/entities/time-slot.entity';
 import { defineConfig, PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { Migrator } from '@mikro-orm/migrations';
+import { SeedManager } from '@mikro-orm/seeder';
 
 config();
 
 export default defineConfig({
-  extensions: [Migrator],
+  extensions: [Migrator, SeedManager],
   entities: [
     Schedule,
     TimeSlot,
@@ -34,4 +35,16 @@ export default defineConfig({
   password: process.env.DB_PASSWORD,
   host: process.env.DB_HOST,
   port: +process.env.DB_PORT,
+  driverOptions: {
+    connection: {
+      ssl: process.env.NODE_ENV === 'production',
+    },
+  },
+  seeder: {
+    path: './dist/seeders',
+    pathTs: './src/seeders',
+    defaultSeeder: 'DatabaseSeeder',
+    glob: '!(*.d).{js,ts}',
+    emit: 'ts',
+  },
 });

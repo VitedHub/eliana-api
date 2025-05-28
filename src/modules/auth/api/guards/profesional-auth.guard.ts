@@ -26,15 +26,16 @@ export class ProfessionalAuthGuard implements CanActivate {
       context.getClass(),
     ]);
 
-    if (isPublic) {
-      return true;
-    }
-
     const req = context
       .switchToHttp()
       .getRequest<ProfessionalAuthenticatedRequest>();
 
     const accessToken = req.cookies['access_token'];
+
+    if (!accessToken) {
+      if (isPublic) return true;
+      throw new UnauthorizedException('Token not provided');
+    }
 
     try {
       const decoded = await this.jwtService.verifyAsync(accessToken);
@@ -51,18 +52,24 @@ export class ProfessionalAuthGuard implements CanActivate {
 
       return true;
     } catch (err) {
-      if (err.name === 'JsonWebTokenError') {
-        throw new UnauthorizedException(
-          'Authentication is required to access this resource.',
-        );
-      }
-      if (err.name === 'TokenExpiredError') {
-        throw new UnauthorizedException(
-          'Your session has expired. Please log in again to continue.',
-        );
+      if (!isPublic) {
+        if (err.name === 'JsonWebTokenError') {
+          throw new UnauthorizedException(
+            'Authentication is required to access this resource.',
+          );
+        }
+        if (err.name === 'TokenExpiredError') {
+          throw new UnauthorizedException(
+            'Your session has expired. Please log in again to continue.',
+          );
+        } else {
+          console.warn(
+            `[AuthGuard] Public route received invalid token: ${err?.message}`,
+          );
+        }
       }
 
-      throw new UnauthorizedException('Authentication failed.');
+      return true;
     }
   }
 }

@@ -81,4 +81,10 @@ export class EstablishmentPgRepository implements IEstablishmentRepository {
     });
     return establishment;
   }
+
+  async countByOwnerId(ownerId: string): Promise<number> {
+    return await this.entityManager.count(Establishment, {
+      owner: ownerId,
+    });
+  }
 }

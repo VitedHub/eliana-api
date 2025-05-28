@@ -7,4 +7,5 @@ export abstract class IEstablishmentRepository {
   abstract findByEmail(email: string): Promise<Establishment | null>;
   abstract findByPublicURL(slug: string): Promise<Establishment | null>;
   abstract findByCnpj(cnpj: string): Promise<Establishment | null>;
+  abstract countByOwnerId(ownerId: string): Promise<number>;
 }

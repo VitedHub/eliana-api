@@ -1,11 +1,12 @@
 import { AUTH_PROVIDER } from '@/clients/domain/enums/auth-provider.enum';
 import { EstablishmentProfessional } from '@/establishments/domain/entities/establishment-professional.entity';
+import { ProfessionalSubscription } from '@/subscriptions/domain/entities/professional-subscription.entity';
 import {
   ArrayType,
   Collection,
   Entity,
   Enum,
-  OneToMany,
+  OneToMany as OneToOne,
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
@@ -44,8 +45,11 @@ export class Professional {
   @Property({ name: 'oauth_id', type: 'varchar', length: 255, nullable: true })
   oAuthId?: string;
 
-  @OneToMany(() => EstablishmentProfessional, (ep) => ep.professional)
+  @OneToOne(() => EstablishmentProfessional, (ep) => ep.professional)
   establishments = new Collection<EstablishmentProfessional>(this);
+
+  @OneToOne(() => ProfessionalSubscription, (ps) => ps.professional)
+  subscriptions = new Collection<ProfessionalSubscription>(this);
 
   @Property({
     name: 'created_at',
@@ -53,4 +57,8 @@ export class Professional {
     type: 'timestamp with time zone',
   })
   createdAt: Date = new Date();
+
+  get activeSubscription(): ProfessionalSubscription | null {
+    return this.subscriptions.getItems().find((sub) => sub.isActive) || null;
+  }
 }

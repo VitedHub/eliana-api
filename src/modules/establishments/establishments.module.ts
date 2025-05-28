@@ -14,6 +14,7 @@ import { ScheduleModule } from '@/schedules/schedule.module';
 import { IEstablishmentProfessionalRepository } from './application/repositories/establishment-professional.repository';
 import { EstablishmentProfessionaPgRepository } from './data/repositories/mikro-orm/establishment-professional.pg.repository';
 import { AppointmentModule } from '@/appointments/appointment.module';
+import { SubscriptionModule } from '@/subscriptions/subscription.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AppointmentModule } from '@/appointments/appointment.module';
     AddressesModule,
     forwardRef(() => ScheduleModule),
     forwardRef(() => AppointmentModule),
+    SubscriptionModule,
   ],
   providers: [
     CreateEstablishment,

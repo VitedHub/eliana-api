@@ -2,12 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import * as express from 'express';
 import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const PORT = process.env.APP_PORT;
 
   const app = await NestFactory.create(AppModule);
+
+  app.use('/payments/webhook', express.raw({ type: 'application/json' }));
 
   app.useGlobalPipes(
     new ValidationPipe({

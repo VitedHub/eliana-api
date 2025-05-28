@@ -1,9 +1,15 @@
-import { ConflictException, Inject, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Inject,
+  NotFoundException,
+} from '@nestjs/common';
 import { IEstablishmentRepository } from '../repositories/establishment.repository';
 import { AddressBuilder } from '@/addresses/domain/builders/address.builder';
 import { EstablishmentBuilder } from '@/establishments/domain/builders/establishment.builder';
 import { IProfessionalRepository } from '@/professionals/application/repositories/professional.repository';
 import { Establishment } from '@/establishments/domain/entities/establishment.entity';
+import { IProfessionalSubscriptionRepository } from '@/subscriptions/application/repositories/professional-subscription.repository';
 
 export type CreateEstablishmentInput = {
   ownerId: string;
@@ -28,12 +34,32 @@ export class CreateEstablishment {
   private readonly professionalRepo: IProfessionalRepository;
   @Inject(IEstablishmentRepository)
   private readonly establishmentRepo: IEstablishmentRepository;
+  @Inject(IProfessionalSubscriptionRepository)
+  private readonly professionalSubscriptionRepo: IProfessionalSubscriptionRepository;
 
   async execute(data: CreateEstablishmentInput): Promise<Establishment> {
     const owner = await this.professionalRepo.findById(data.ownerId);
 
     if (!owner) {
       throw new NotFoundException('Owner not found');
+    }
+
+    const userSubscription =
+      await this.professionalSubscriptionRepo.findByProfessionalId(owner.id);
+
+    if (!userSubscription || userSubscription.isActive) {
+      throw new ForbiddenException(
+        'Subscription required to create establishments',
+      );
+    }
+
+    const currentCount = await this.establishmentRepo.countByOwnerId(owner.id);
+    const maxAllowed = userSubscription.subscriptionPlan.maxEstablishments ?? 0;
+
+    if (currentCount >= maxAllowed) {
+      throw new ForbiddenException(
+        `Your current plan allows a maximum of ${maxAllowed} establishments.`,
+      );
     }
 
     const address = AddressBuilder.create({ ...data.address });

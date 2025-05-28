@@ -23,6 +23,8 @@ import { EstablishmentsModule } from '@/establishments/establishments.module';
 import { AddressesModule } from '@/addresses/addresses.module';
 import { ProfessionalModule } from '@/professionals/professionals.module';
 import { NormalizeFieldsSubscriber } from '@/core/data/subscribers/normalize-fields.subscriber';
+import { SeedManager } from '@mikro-orm/seeder';
+import { SubscriptionModule } from '@/subscriptions/subscription.module';
 
 @Module({
   imports: [
@@ -53,6 +55,12 @@ import { NormalizeFieldsSubscriber } from '@/core/data/subscribers/normalize-fie
         host: configService.get('DB_HOST'),
         port: +configService.get('DB_PORT'),
         subscribers: [NormalizeFieldsSubscriber],
+        extensions: [SeedManager],
+        driverOptions: {
+          connection: {
+            ssl: process.env.NODE_ENV === 'production',
+          },
+        },
       }),
       inject: [ConfigService],
     }),
@@ -64,6 +72,7 @@ import { NormalizeFieldsSubscriber } from '@/core/data/subscribers/normalize-fie
     ProfessionalModule,
     EstablishmentsModule,
     AddressesModule,
+    SubscriptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

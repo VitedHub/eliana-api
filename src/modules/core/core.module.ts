@@ -4,6 +4,7 @@ import { AxiosHttpClient } from './infra/providers/axios-http-client.provider';
 import { CookieSecurityService } from './application/services/cookie-security.service';
 
 @Module({
+  imports: [],
   providers: [
     {
       provide: IHttpClient,
